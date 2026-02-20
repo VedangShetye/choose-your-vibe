@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Choose Your Vibe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cinzel:wght@400;600&family=IM+Fell+English:ital@0;1&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;700;800&family=Bebas+Neue&family=Literata:ital,wght@0,300;1,300;1,600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+
+.screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.65s ease;}
+.screen.active{opacity:1;pointer-events:all;}
+
+/* ══════════════════════════════════════
+   LANDING
+══════════════════════════════════════ */
+#landing{background:#0d0d0d;flex-direction:column;}
+.landing-split{display:flex;width:100%;height:100%;}
+.half{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;transition:flex 0.6s cubic-bezier(0.4,0,0.2,1);}
+.half:hover{flex:1.18;}
+.half-dark{background:#0e0a06;}
+.half-dark::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(139,58,30,.22) 0%,transparent 65%),radial-gradient(ellipse at 70% 80%,rgba(201,168,76,.1) 0%,transparent 60%);}
+.half-dark::after{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");pointer-events:none;opacity:.5;}
+.half-bright{background:#fff8ef;}
+.half-bright::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 60% 30%,rgba(255,210,100,.38) 0%,transparent 55%),radial-gradient(circle at 25% 75%,rgba(255,160,80,.22) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(120,220,180,.22) 0%,transparent 45%);}
+.landing-divider{position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.12) 30%,rgba(255,255,255,.12) 70%,transparent);z-index:10;pointer-events:none;}
+.landing-top-label{position:absolute;top:24px;left:50%;transform:translateX(-50%);z-index:20;font-family:'Cinzel',serif;font-size:8px;letter-spacing:5px;color:rgba(255,255,255,.16);text-transform:uppercase;white-space:nowrap;}
+
+.bubbles-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+.bubble-dot{position:absolute;border-radius:50%;animation:floatUp linear infinite;opacity:0;}
+@keyframes floatUp{0%{transform:translateY(0) scale(1);opacity:0}10%{opacity:.55}90%{opacity:.35}100%{transform:translateY(-110vh) scale(.6);opacity:0}}
+
+.half-content{position:relative;z-index:5;display:flex;flex-direction:column;align-items:center;gap:16px;padding:40px;text-align:center;}
+.dark-eyebrow{font-family:'Cinzel',serif;font-size:8px;letter-spacing:5px;color:rgba(201,168,76,.55);text-transform:uppercase;}
+.dark-title{font-family:'IM Fell English',serif;font-size:clamp(30px,5vw,52px);color:#f5efe4;font-style:italic;line-height:1.1;}
+.dark-subtitle{font-family:'Cormorant Garamond',serif;font-size:clamp(13px,1.5vw,15px);color:rgba(245,239,228,.42);font-style:italic;max-width:200px;line-height:1.6;}
+.dark-ornament{display:flex;align-items:center;gap:10px;}
+.dark-orn-line{width:38px;height:1px;background:rgba(201,168,76,.28);}
+.dark-orn-dia{width:4px;height:4px;background:rgba(201,168,76,.45);transform:rotate(45deg);}
+.dark-cta{margin-top:6px;font-family:'Cinzel',serif;font-size:8px;letter-spacing:4px;color:rgba(201,168,76,.45);border:1px solid rgba(201,168,76,.18);padding:10px 22px;transition:all .4s;text-transform:uppercase;}
+.half-dark:hover .dark-cta{color:rgba(201,168,76,.9);border-color:rgba(201,168,76,.5);background:rgba(201,168,76,.05);}
+.bright-emoji-big{font-size:52px;animation:wobble 3s ease-in-out infinite;}
+@keyframes wobble{0%,100%{transform:rotate(-4deg) scale(1)}50%{transform:rotate(4deg) scale(1.08)}}
+.bright-title{font-family:'Fredoka',sans-serif;font-size:clamp(28px,5vw,50px);font-weight:600;color:#2d2d2d;line-height:1.1;}
+.bright-subtitle{font-family:'Nunito',sans-serif;font-size:clamp(12px,1.4vw,14px);color:rgba(50,40,30,.5);max-width:200px;line-height:1.6;}
+.bright-cta{margin-top:6px;font-family:'Fredoka',sans-serif;font-size:14px;font-weight:500;color:#fff;background:linear-gradient(135deg,#ff9f43,#ff6b6b);border:none;padding:11px 26px;border-radius:50px;cursor:pointer;transition:transform .3s,box-shadow .3s;box-shadow:0 4px 15px rgba(255,107,107,.3);}
+.half-bright:hover .bright-cta{transform:translateY(-2px) scale(1.05);box-shadow:0 8px 25px rgba(255,107,107,.45);}
+
+/* ══════════════════════════════════════
+   DARK / PSYCHE SCREEN
+══════════════════════════════════════ */
+:root{--ink:#1a1008;--parchment:#f5efe4;--gold:#c9a84c;--rust:#8b3a1e;}
+#dark-screen{background:var(--ink);flex-direction:column;}
+#dark-screen::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:100;opacity:.6;}
+#dark-screen::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,.75) 100%);pointer-events:none;z-index:99;}
+.dblob{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;}
+.dblob1{width:500px;height:500px;background:radial-gradient(circle,rgba(139,58,30,.18),transparent 70%);top:-100px;left:-100px;}
+.dblob2{width:400px;height:400px;background:radial-gradient(circle,rgba(201,168,76,.12),transparent 70%);bottom:-80px;right:-80px;}
+
+.dark-header{position:fixed;top:26px;left:50%;transform:translateX(-50%);text-align:center;z-index:110;display:flex;flex-direction:column;align-items:center;gap:5px;}
+.dark-hdr-back{font-family:'Cinzel',serif;font-size:7px;letter-spacing:3px;color:rgba(201,168,76,.32);cursor:pointer;transition:color .3s;text-transform:uppercase;}
+.dark-hdr-back:hover{color:rgba(201,168,76,.7);}
+.dark-hdr-title{font-family:'Cinzel',serif;font-size:10px;letter-spacing:6px;color:var(--gold);opacity:.7;text-transform:uppercase;}
+.dh-orn{display:flex;align-items:center;gap:10px;opacity:.32;}
+.dh-line{width:45px;height:1px;}
+.dh-l{background:linear-gradient(to right,transparent,var(--gold));}
+.dh-r{background:linear-gradient(to left,transparent,var(--gold));}
+.dh-dia{width:4px;height:4px;background:var(--gold);transform:rotate(45deg);}
+
+.d-card{position:relative;max-width:720px;width:90%;padding:56px 68px;text-align:center;z-index:110;}
+.d-card::before,.d-card::after{content:'';position:absolute;width:22px;height:22px;border-color:var(--gold);border-style:solid;opacity:.23;}
+.d-card::before{top:16px;left:16px;border-width:1px 0 0 1px;}
+.d-card::after{bottom:16px;right:16px;border-width:0 1px 1px 0;}
+.d-inner{position:relative;}
+.d-inner::before,.d-inner::after{content:'';position:absolute;width:22px;height:22px;border-color:var(--gold);border-style:solid;opacity:.23;}
+.d-inner::before{top:16px;right:16px;border-width:1px 1px 0 0;}
+.d-inner::after{bottom:16px;left:16px;border-width:0 0 1px 1px;}
+
+.d-echo{font-family:'Cinzel',serif;font-size:7px;letter-spacing:4px;color:var(--rust);text-transform:uppercase;margin-bottom:22px;opacity:0;transition:opacity .8s;min-height:14px;}
+.d-echo.vis{opacity:1;}
+.d-qmark{font-family:'IM Fell English',serif;font-size:120px;color:var(--gold);opacity:.12;line-height:.55;display:block;margin-bottom:16px;font-style:italic;}
+.d-text{font-family:'IM Fell English',serif;font-size:clamp(24px,3.5vw,38px);line-height:1.65;color:var(--parchment);font-style:italic;letter-spacing:.015em;opacity:0;transform:translateY(12px);transition:opacity 1.2s,transform 1.2s;}
+.d-text.vis{opacity:1;transform:translateY(0);}
+.d-div{width:36px;height:1px;background:var(--gold);margin:24px auto;opacity:0;transform:scaleX(0);transition:transform 1s .5s,opacity .8s .5s;}
+.d-div.vis{transform:scaleX(1);opacity:.38;}
+.d-author{font-family:'Cinzel',serif;font-size:10px;letter-spacing:3px;color:var(--gold);opacity:0;transition:opacity 1s .9s;}
+.d-author.vis{opacity:.78;}
+.d-theme{font-family:'Cormorant Garamond',serif;font-size:10px;letter-spacing:2px;color:var(--rust);margin-top:5px;opacity:0;transition:opacity 1s 1.1s;text-transform:uppercase;}
+.d-theme.vis{opacity:.58;}
+.d-ai{display:inline-block;font-family:'Cinzel',serif;font-size:7px;letter-spacing:3px;color:var(--gold);border:1px solid var(--gold);padding:3px 8px;margin-top:9px;opacity:0;transition:opacity 1s 1.2s;text-transform:uppercase;}
+.d-ai.vis{opacity:.42;}
+
+.dark-footer{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;z-index:110;}
+.d-btn{font-family:'Cinzel',serif;font-size:8px;letter-spacing:5px;text-transform:uppercase;color:var(--parchment);background:transparent;border:1px solid rgba(201,168,76,.28);padding:12px 30px;cursor:pointer;transition:all .4s;position:relative;overflow:hidden;}
+.d-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,76,.1),transparent);opacity:0;transition:opacity .4s;}
+.d-btn:hover{border-color:var(--gold);color:var(--gold);}
+.d-btn:hover::before{opacity:1;}
+.d-btn:disabled{opacity:.3;cursor:not-allowed;}
+.d-footnote{font-family:'Cormorant Garamond',serif;font-size:11px;color:var(--parchment);opacity:.2;letter-spacing:1px;font-style:italic;}
+.d-keyhint{font-family:'Cinzel',serif;font-size:7px;letter-spacing:2px;color:var(--parchment);opacity:.17;}
+@keyframes dPulse{0%{transform:translate(-50%,-50%) scale(.8);opacity:.5}100%{transform:translate(-50%,-50%) scale(2.1);opacity:0}}
+.d-ring{position:fixed;top:50%;left:50%;width:280px;height:280px;border:1px solid var(--gold);border-radius:50%;pointer-events:none;animation:dPulse 2s ease-out forwards;z-index:5;}
+
+/* ══════════════════════════════════════
+   SIP & SMILE — Premium editorial
+══════════════════════════════════════ */
+#bright-screen{overflow:hidden;flex-direction:column;background:#f0ebe3;}
+
+.sip-bg-layer{
+  position:fixed;inset:0;z-index:0;
+  transition:background-color 0.9s cubic-bezier(.4,0,.2,1);
+}
+
+.sip-bg-layer::after{
+  content:'';position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.032'/%3E%3C/svg%3E");
+  pointer-events:none;
+}
+
+.sip-header{
+  position:fixed;top:0;left:0;right:0;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 40px;z-index:110;
+}
+.sip-brand{
+  font-family:'Syne',sans-serif;font-size:13px;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;
+  color:var(--sip-text);opacity:.55;
+  transition:color .8s;
+}
+.sip-back{
+  font-family:'Syne',sans-serif;font-size:11px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--sip-text);opacity:.4;
+  cursor:pointer;transition:opacity .3s;background:none;border:none;
+}
+.sip-back:hover{opacity:.8;}
+.sip-counter{
+  font-family:'Syne',sans-serif;font-size:11px;letter-spacing:2px;
+  color:var(--sip-text);opacity:.35;text-transform:uppercase;
+  transition:color .8s;
+}
+
+.sip-stage{
+  position:relative;z-index:10;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  width:100%;height:100%;
+  padding:90px 40px 90px;
+}
+
+.sip-echo-tag{
+  font-family:'Syne',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--sip-accent);border:1px solid var(--sip-accent);
+  padding:4px 14px;border-radius:2px;
+  margin-bottom:32px;opacity:0;transition:opacity .6s;
+}
+.sip-echo-tag.vis{opacity:.7;}
+
+.sip-quote-block{
+  max-width:780px;width:100%;
+  text-align:center;
+  opacity:0;
+  transform:translateY(16px);
+  transition:opacity .9s ease, transform .9s cubic-bezier(.16,1,.3,1);
+}
+.sip-quote-block.vis{opacity:1;transform:translateY(0);}
+
+.sip-word{
+  display:inline;
+  line-height:1.3;
+  letter-spacing:-.01em;
+}
+
+.sw-serif-bold{
+  font-family:'Playfair Display',serif;
+  font-weight:900;
+  font-style:normal;
+}
+.sw-serif-italic{
+  font-family:'DM Serif Display',serif;
+  font-style:italic;
+  font-weight:400;
+}
+.sw-sans-upper{
+  font-family:'Syne',sans-serif;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+}
+.sw-display{
+  font-family:'Bebas Neue',sans-serif;
+  letter-spacing:.06em;
+}
+.sw-literary{
+  font-family:'Literata',serif;
+  font-weight:300;
+  font-style:italic;
+}
+.sw-plain{
+  font-family:'Playfair Display',serif;
+  font-weight:400;
+}
+
+.sip-rule{
+  width:48px;height:1px;background:var(--sip-accent);
+  margin:32px auto;opacity:0;transform:scaleX(0);
+  transition:transform .9s .4s ease,opacity .9s .4s;
+}
+.sip-rule.vis{transform:scaleX(1);opacity:.5;}
+
+.sip-meta{
+  display:flex;align-items:center;justify-content:center;gap:16px;
+  opacity:0;transition:opacity .9s .7s;
+}
+.sip-meta.vis{opacity:1;}
+.sip-author{
+  font-family:'Literata',serif;font-size:13px;font-style:italic;font-weight:300;
+  color:var(--sip-text);opacity:.55;
+}
+.sip-meta-dot{width:3px;height:3px;border-radius:50%;background:var(--sip-accent);opacity:.6;}
+.sip-flavor{
+  font-family:'Syne',sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;
+  color:var(--sip-accent);opacity:.8;
+}
+
+.sip-ai-badge{
+  display:inline-block;
+  font-family:'Syne',sans-serif;font-size:8px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--sip-accent);border:1px solid var(--sip-accent);
+  padding:4px 12px;margin-top:14px;
+  opacity:0;transition:opacity .8s 1s;
+}
+.sip-ai-badge.vis{opacity:.55;}
+
+.sip-next-btn{
+  position:fixed;bottom:32px;right:40px;
+  font-family:'Syne',sans-serif;font-size:9px;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;
+  color:var(--sip-text);
+  background:transparent;
+  border:1px solid var(--sip-text);
+  padding:12px 28px;cursor:pointer;
+  opacity:.45;
+  transition:opacity .3s,transform .3s;
+  z-index:110;
+}
+.sip-next-btn:hover{opacity:1;}
+.sip-next-btn:disabled{opacity:.18;cursor:not-allowed;}
+.sip-next-btn:active{transform:scale(.97);}
+
+.sip-tap-hint{
+  position:fixed;bottom:38px;left:40px;
+  font-family:'Syne',sans-serif;font-size:8px;letter-spacing:2px;
+  color:var(--sip-text);opacity:0;text-transform:uppercase;z-index:110;
+  animation:fadeHint 4s ease 1.8s forwards;
+}
+@keyframes fadeHint{0%{opacity:0}15%{opacity:.3}75%{opacity:.3}100%{opacity:0}}
+
+.sip-watermark{
+  position:fixed;bottom:-10px;left:50%;transform:translateX(-50%);
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(80px,15vw,160px);
+  color:var(--sip-text);opacity:.04;letter-spacing:.05em;
+  z-index:1;pointer-events:none;white-space:nowrap;
+  transition:color .8s;
+}
+
+@keyframes shimmer{0%,100%{opacity:.25}50%{opacity:.7}}
+.loading{animation:shimmer 1.2s ease infinite;}
+</style>
+</head>
+<body>
+
+<!-- LANDING -->
+<div class="screen active" id="landing">
+  <div class="landing-top-label">Choose your experience</div>
+  <div class="landing-divider"></div>
+  <div class="landing-split">
+    <div class="half half-dark" onclick="goTo('dark')">
+      <div class="half-content">
+        <div class="dark-eyebrow">Category I</div>
+        <div class="dark-title">Psyche</div>
+        <div class="dark-ornament"><div class="dark-orn-line"></div><div class="dark-orn-dia"></div><div class="dark-orn-line"></div></div>
+        <div class="dark-subtitle">Quotes from the depths of human psychology</div>
+        <div class="dark-cta">Enter the shadow</div>
+      </div>
+    </div>
+    <div class="half half-bright" onclick="goTo('bright')">
+      <div class="bubbles-bg" id="landBubs"></div>
+      <div class="half-content">
+        <div class="bright-emoji-big">🌈</div>
+        <div class="bright-title">Sip &amp; Smile</div>
+        <div class="bright-subtitle">Fresh, feel-good quotes in full colour</div>
+        <div class="bright-cta">Feel good now ✨</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DARK SCREEN -->
+<div class="screen" id="dark-screen">
+  <div class="dblob dblob1"></div>
+  <div class="dblob dblob2"></div>
+  <div class="dark-header">
+    <div class="dark-hdr-back" onclick="goTo('landing')">← back to choose</div>
+    <div class="dark-hdr-title">Psyche</div>
+    <div class="dh-orn"><div class="dh-line dh-l"></div><div class="dh-dia"></div><div class="dh-line dh-r"></div></div>
+  </div>
+  <div class="d-card">
+    <div class="d-inner">
+      <div class="d-echo" id="dEcho">⟳ Echo — the same truth, reborn</div>
+      <span class="d-qmark">"</span>
+      <div class="d-text" id="dText"></div>
+      <div class="d-div" id="dDiv"></div>
+      <div class="d-author" id="dAuthor"></div>
+      <div class="d-theme" id="dTheme"></div>
+      <div class="d-ai" id="dAi">✦ Generated by AI</div>
+    </div>
+  </div>
+  <div class="dark-footer">
+    <button class="d-btn" id="dBtn" onclick="dNext()">Next Revelation</button>
+    <div class="d-keyhint">Space / →</div>
+    <div class="d-footnote" id="dNote">Revelation 1 of ∞</div>
+  </div>
+</div>
+
+<!-- SIP SCREEN -->
+<div class="screen" id="bright-screen">
+  <div class="sip-bg-layer" id="sipBgLayer"></div>
+
+  <header class="sip-header">
+    <button class="sip-back" onclick="goTo('landing')">← back</button>
+    <div class="sip-brand">Sip &amp; Smile</div>
+    <div class="sip-counter" id="sipCtr">001</div>
+  </header>
+
+  <div class="sip-stage">
+    <div class="sip-echo-tag" id="sipEcho">⟳ Same truth, fresh words</div>
+    <div class="sip-quote-block" id="sipQuoteBlock">
+      <div id="sipWordContainer"></div>
+    </div>
+    <div class="sip-rule" id="sipRule"></div>
+    <div class="sip-meta" id="sipMeta">
+      <span class="sip-author" id="sipAuthor"></span>
+      <div class="sip-meta-dot" id="sipMetaDot"></div>
+      <span class="sip-flavor" id="sipFlavor"></span>
+    </div>
+    <div class="sip-ai-badge" id="sipAi">✦ Generated by AI</div>
+  </div>
+
+  <div class="sip-watermark" id="sipWatermark">001</div>
+  <div class="sip-tap-hint">Space / → for next</div>
+  <button class="sip-next-btn" id="sipBtn" onclick="sipNext()">Next →</button>
+</div>
+
+<script>
+/* ── ROUTER ── */
+let currentScreen = 'landing';
+function goTo(s) {
+  document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+  const id = s==='dark' ? 'dark-screen' : s==='bright' ? 'bright-screen' : 'landing';
+  document.getElementById(id).classList.add('active');
+  currentScreen = s;
+  if(s==='dark' && dCount===0) initDark();
+  if(s==='bright' && sipCount===0) initSip();
+}
+
+/* ════════════ DARK / PSYCHE ════════════ */
+const DC = [
+  {text:"The cave you fear to enter holds the treasure you seek.",author:"Joseph Campbell",theme:"courage",
+   echoes:[{text:"Whatever you run from, you run toward.",author:"— rephrased",theme:"courage"},{text:"Your greatest fear is a door, not a wall.",author:"— rephrased",theme:"courage"}]},
+  {text:"We don't see things as they are, we see them as we are.",author:"Anaïs Nin",theme:"perception",
+   echoes:[{text:"The world is a mirror. What disturbs you, reveals you.",author:"— rephrased",theme:"perception"},{text:"Your eyes do not see reality — they see your history.",author:"— rephrased",theme:"perception"}]},
+  {text:"Until you make the unconscious conscious, it will direct your life and you will call it fate.",author:"Carl Jung",theme:"self-awareness",
+   echoes:[{text:"What you refuse to see in yourself, you will meet as destiny.",author:"— rephrased",theme:"self-awareness"},{text:"The patterns you ignore become the stories you tell about others.",author:"— rephrased",theme:"self-awareness"}]},
+  {text:"The most terrifying thing is to accept oneself completely.",author:"Carl Jung",theme:"acceptance",
+   echoes:[{text:"Self-acceptance is not softness. It is the bravest act you will ever perform.",author:"— rephrased",theme:"acceptance"},{text:"You are most afraid of the person you actually are.",author:"— rephrased",theme:"acceptance"}]},
+  {text:"Between stimulus and response there is a space. In that space is our power to choose.",author:"Viktor Frankl",theme:"freedom",
+   echoes:[{text:"You are not your reaction. You are the pause before it.",author:"— rephrased",theme:"freedom"},{text:"Freedom lives in the gap between what happens and what you do next.",author:"— rephrased",theme:"freedom"}]},
+  {text:"The privilege of a lifetime is to become who you truly are.",author:"Carl Jung",theme:"identity",
+   echoes:[{text:"Your entire life is practice for becoming yourself.",author:"— rephrased",theme:"identity"},{text:"Most people die as strangers to themselves.",author:"— rephrased",theme:"identity"}]},
+  {text:"Shame is the fear that we are not good enough.",author:"Brené Brown",theme:"shame",
+   echoes:[{text:"Every self-destructive behaviour is shame wearing a disguise.",author:"— rephrased",theme:"shame"},{text:"The wound of 'I am not enough' runs deeper than any other.",author:"— rephrased",theme:"shame"}]},
+  {text:"What we resist, persists.",author:"Carl Jung",theme:"resistance",
+   echoes:[{text:"The things you try hardest not to feel are the things that own you.",author:"— rephrased",theme:"resistance"},{text:"Suppression is not peace. It is only postponement.",author:"— rephrased",theme:"resistance"}]},
+  {text:"The wound is the place where the Light enters you.",author:"Rumi",theme:"healing",
+   echoes:[{text:"Your broken places are not flaws. They are windows.",author:"— rephrased",theme:"healing"}]},
+  {text:"Everything that irritates us about others can lead us to an understanding of ourselves.",author:"Carl Jung",theme:"projection",
+   echoes:[{text:"Whoever annoys you most is teaching you something about yourself.",author:"— rephrased",theme:"projection"}]},
+  {text:"The greatest burden a child must bear is the unlived life of the parent.",author:"Carl Jung",theme:"legacy",
+   echoes:[{text:"Children inherit not just genes, but the dreams their parents abandoned.",author:"— rephrased",theme:"legacy"},{text:"What your parents couldn't become, they may silently ask you to be.",author:"— rephrased",theme:"legacy"}]},
+  {text:"Loneliness does not come from having no people around, but from being unable to communicate the things that seem important to oneself.",author:"Carl Jung",theme:"loneliness",
+   echoes:[{text:"You can be surrounded by people and still be utterly alone. The cure isn't company — it's understanding.",author:"— rephrased",theme:"loneliness"},{text:"The deepest loneliness is standing in a crowd and feeling invisible.",author:"— rephrased",theme:"loneliness"}]},
+  {text:"People will do anything, no matter how absurd, to avoid facing their own souls.",author:"Carl Jung",theme:"avoidance",
+   echoes:[{text:"Busyness is often a sophisticated form of running away.",author:"— rephrased",theme:"avoidance"},{text:"We keep ourselves occupied so we never have to sit with what we feel.",author:"— rephrased",theme:"avoidance"}]},
+  {text:"The meeting of two personalities is like the contact of two chemical substances: if there is any reaction, both are transformed.",author:"Carl Jung",theme:"relationships",
+   echoes:[{text:"Every real connection changes you. If you leave someone unchanged, you never truly met.",author:"— rephrased",theme:"relationships"}]},
+  {text:"One does not become enlightened by imagining figures of light, but by making the darkness conscious.",author:"Carl Jung",theme:"shadow",
+   echoes:[{text:"Growth is not the addition of light. It is the honest examination of darkness.",author:"— rephrased",theme:"shadow"},{text:"The parts of yourself you hide are the ones that need the most attention.",author:"— rephrased",theme:"shadow"}]},
+  {text:"Your task is not to seek for love, but merely to seek and find all the barriers within yourself that you have built against it.",author:"Rumi",theme:"love",
+   echoes:[{text:"You don't need to find love. You need to stop hiding from it.",author:"— rephrased",theme:"love"},{text:"Every wall you build to protect yourself also keeps love out.",author:"— rephrased",theme:"love"}]},
+  {text:"The first half of life is devoted to forming a healthy ego, the second half is going inward and letting go of it.",author:"Carl Jung",theme:"ego",
+   echoes:[{text:"You spend the first half of life building a self. The second half learning which parts of it aren't really you.",author:"— rephrased",theme:"ego"}]},
+  {text:"In the middle of winter, I at last discovered that there was in me an invincible summer.",author:"Albert Camus",theme:"resilience",
+   echoes:[{text:"Your darkness is not the absence of warmth. It is the season before it.",author:"— rephrased",theme:"resilience"},{text:"The coldest versions of yourself are always hiding something warm.",author:"— rephrased",theme:"resilience"}]},
+  {text:"Knowing your own darkness is the best method for dealing with the darkness of other people.",author:"Carl Jung",theme:"empathy",
+   echoes:[{text:"Compassion is recognising your own capacity for everything you judge in others.",author:"— rephrased",theme:"empathy"},{text:"Before you condemn, ask yourself if you could have done the same.",author:"— rephrased",theme:"empathy"}]},
+  {text:"We are what we repeatedly do. Excellence, then, is not an act, but a habit.",author:"Aristotle",theme:"identity",
+   echoes:[{text:"You are not who you say you are. You are what you do when no one is watching.",author:"— rephrased",theme:"identity"},{text:"Character is not declared. It is accumulated, one repeated choice at a time.",author:"— rephrased",theme:"identity"}]},
+  {text:"He who has a why to live for can bear almost any how.",author:"Viktor Frankl",theme:"meaning",
+   echoes:[{text:"Suffering becomes bearable the moment it is given meaning.",author:"— rephrased",theme:"meaning"},{text:"Purpose is not a luxury. It is an analgesic.",author:"— rephrased",theme:"meaning"}]},
+  {text:"The curious paradox is that when I accept myself just as I am, then I can change.",author:"Carl Rogers",theme:"change",
+   echoes:[{text:"Change never comes from hating who you are. Only from understanding it.",author:"— rephrased",theme:"change"},{text:"You cannot outrun yourself. You can only stop and turn around.",author:"— rephrased",theme:"change"}]},
+  {text:"Attachment is the root of suffering.",author:"Buddha",theme:"attachment",
+   echoes:[{text:"Most of your pain is not the loss itself — it is the grip you kept long after.",author:"— rephrased",theme:"attachment"},{text:"You suffer not from what leaves, but from refusing to let it go.",author:"— rephrased",theme:"attachment"}]},
+  {text:"The snake which cannot cast its skin has to die. As well the minds which are prevented from changing their opinions; they cease to be mind.",author:"Nietzsche",theme:"rigidity",
+   echoes:[{text:"The most dangerous prison is a mind that has decided it already knows.",author:"— rephrased",theme:"rigidity"},{text:"Certainty is comfortable. Growth is not.",author:"— rephrased",theme:"rigidity"}]},
+  {text:"Out of suffering have emerged the strongest souls; the most massive characters are seared with scars.",author:"Khalil Gibran",theme:"suffering",
+   echoes:[{text:"The people who make you feel most understood are the ones who have bled the same way.",author:"— rephrased",theme:"suffering"},{text:"Depth is not given. It is carved by pain endured and survived.",author:"— rephrased",theme:"suffering"}]},
+  {text:"Unexpressed emotions will never die. They are buried alive and will come forth later in uglier ways.",author:"Sigmund Freud",theme:"repression",
+   echoes:[{text:"Every feeling you don't allow will find its own exit. It may not choose a clean one.",author:"— rephrased",theme:"repression"},{text:"You don't bury emotions. You bury them alive.",author:"— rephrased",theme:"repression"}]},
+  {text:"The most common form of despair is not being who you are.",author:"Søren Kierkegaard",theme:"authenticity",
+   echoes:[{text:"Living a life that doesn't belong to you is the quietest kind of tragedy.",author:"— rephrased",theme:"authenticity"},{text:"The exhaustion of performing a self you never chose is real.",author:"— rephrased",theme:"authenticity"}]},
+  {text:"Happiness is when what you think, what you say, and what you do are in harmony.",author:"Mahatma Gandhi",theme:"integrity",
+   echoes:[{text:"The tension you carry is often the distance between who you are and who you pretend to be.",author:"— rephrased",theme:"integrity"},{text:"Peace is not the absence of conflict. It is alignment — inside and out.",author:"— rephrased",theme:"integrity"}]},
+  {text:"A man who has not passed through the inferno of his passions has never overcome them.",author:"Carl Jung",theme:"transformation",
+   echoes:[{text:"You don't transcend your desires by ignoring them. You walk through them.",author:"— rephrased",theme:"transformation"},{text:"The only way out is through. It has always been through.",author:"— rephrased",theme:"transformation"}]},
+  {text:"You are most dangerous to yourself when you are almost healed.",author:"",theme:"healing",
+   echoes:[
+     {text:"The relapse lives in the gap between recovery and arrival.",author:"— rephrased",theme:"healing"},
+     {text:"Beware the version of yourself that almost made it.",author:"— rephrased",theme:"healing"}
+   ]},
+  {text:"Trauma doesn't announce itself. It shows up as your personality.",author:"",theme:"trauma",
+   echoes:[
+     {text:"Half of what you call 'just who I am' is who you became to survive.",author:"— rephrased",theme:"trauma"},
+     {text:"Your character was partly authored by wounds you never named.",author:"— rephrased",theme:"trauma"}
+   ]},
+  {text:"The ego will always choose familiar pain over unfamiliar freedom.",author:"",theme:"ego",
+   echoes:[
+     {text:"The devil you know is the ego's favourite argument against growth.",author:"— rephrased",theme:"ego"},
+     {text:"You keep choosing the cage. You call it comfort. It is neither.",author:"— rephrased",theme:"ego"}
+   ]},
+  {text:"Your relationships are X-rays. They reveal what you cannot see in yourself.",author:"",theme:"projection",
+   echoes:[
+     {text:"You chose them. That choice is a confession about yourself.",author:"— rephrased",theme:"projection"},
+     {text:"Every person who infuriates you is holding a mirror you don't want to look at.",author:"— rephrased",theme:"projection"}
+   ]},
+  {text:"The loudest person in the room is drowning in silence inside.",author:"",theme:"performance",
+   echoes:[
+     {text:"Performance is always proportional to the size of the inner void.",author:"— rephrased",theme:"performance"},
+     {text:"Watch who needs to be seen most. That is who is most invisible to themselves.",author:"— rephrased",theme:"performance"}
+   ]},
+  {text:"You are not afraid of failure. You are afraid of how familiar it feels.",author:"",theme:"self-sabotage",
+   echoes:[
+     {text:"We self-sabotage not from weakness but from loyalty to our worst predictions.",author:"— rephrased",theme:"self-sabotage"},
+     {text:"The part of you that destroys things has been doing it since long before you noticed.",author:"— rephrased",theme:"self-sabotage"}
+   ]},
+  {text:"Perfectionism is not ambition. It is the fear of being seen while imperfect.",author:"",theme:"perfectionism",
+   echoes:[
+     {text:"You don't delay because you're lazy. You delay because imperfect feels unsafe.",author:"— rephrased",theme:"perfectionism"},
+     {text:"The pursuit of perfect is the deferral of real.",author:"— rephrased",theme:"perfectionism"}
+   ]},
+  {text:"You taught people how to treat you long before you knew you were teaching.",author:"",theme:"patterns",
+   echoes:[
+     {text:"Your tolerance trained people more than your words ever did.",author:"— rephrased",theme:"patterns"},
+     {text:"The treatment you accepted became the treatment you were offered forever.",author:"— rephrased",theme:"patterns"}
+   ]},
+  {text:"Control is not safety. It is fear wearing a suit of competence.",author:"",theme:"control",
+   echoes:[
+     {text:"You manage everything because you trust nothing, including yourself.",author:"— rephrased",theme:"control"},
+     {text:"The tighter the grip, the more terror lives beneath it.",author:"— rephrased",theme:"control"}
+   ]},
+  {text:"We grieve longest for the futures we never lived.",author:"",theme:"grief",
+   echoes:[
+     {text:"The hardest mourning is for a version of your life that never existed.",author:"— rephrased",theme:"grief"},
+     {text:"You are not crying over what happened. You are crying for what didn't.",author:"— rephrased",theme:"grief"}
+   ]},
+  {text:"Emotional unavailability is the most sophisticated form of self-protection. And the loneliest.",author:"",theme:"avoidance",
+   echoes:[
+     {text:"The armour that kept you alive is now the wall that keeps you alone.",author:"— rephrased",theme:"avoidance"},
+     {text:"You built your defences so well that love cannot find a way in.",author:"— rephrased",theme:"avoidance"}
+   ]},
+  {text:"The version of you that people praise may not be the version that is actually free.",author:"",theme:"authenticity",
+   echoes:[
+     {text:"Applause for a performance is not recognition of a self.",author:"— rephrased",theme:"authenticity"},
+     {text:"You became what they admired. That was the original loss of self.",author:"— rephrased",theme:"authenticity"}
+   ]},
+  {text:"Anger is just grief that hasn't found its sentence yet.",author:"",theme:"anger",
+   echoes:[
+     {text:"Behind every explosion is an unexpressed devastation.",author:"— rephrased",theme:"anger"},
+     {text:"You are not angry. You are heartbroken and this is how it exits.",author:"— rephrased",theme:"anger"}
+   ]},
+  {text:"Some people mistake emotional volatility for emotional depth. They are not the same.",author:"",theme:"depth",
+   echoes:[
+     {text:"Intensity is not intimacy. Volume is not vulnerability.",author:"— rephrased",theme:"depth"},
+     {text:"Chaos is not the same as complexity. Loudness is not feeling.",author:"— rephrased",theme:"depth"}
+   ]},
+  {text:"You will know you have done the work when the thing that used to trigger you simply makes you curious.",author:"",theme:"healing",
+   echoes:[
+     {text:"Healing is when the wound becomes data instead of identity.",author:"— rephrased",theme:"healing"},
+     {text:"You haven't healed until the old story bores you.",author:"— rephrased",theme:"healing"}
+   ]},
+  {text:"Most people don't want answers. They want their questions validated.",author:"",theme:"self-awareness",
+   echoes:[
+     {text:"Advice is rarely what anyone is asking for.",author:"— rephrased",theme:"self-awareness"},
+     {text:"The cry for help often contains a refusal to be helped.",author:"— rephrased",theme:"self-awareness"}
+   ]},
+  {text:"The narcissist and the codependent found each other on purpose.",author:"",theme:"relationships",
+   echoes:[
+     {text:"We do not fall into toxic relationships. We recognise them.",author:"— rephrased",theme:"relationships"},
+     {text:"Dysfunction doesn't happen to us. It calls to something already inside.",author:"— rephrased",theme:"relationships"}
+   ]},
+  {text:"To love someone without losing yourself is the most advanced thing a human can attempt.",author:"",theme:"love",
+   echoes:[
+     {text:"The difference between devotion and dissolution is the hardest line to hold.",author:"— rephrased",theme:"love"},
+     {text:"You can love completely and still remain whole. That is the practice.",author:"— rephrased",theme:"love"}
+   ]},
+  {text:"Depression is not sadness. It is the severing of the self from its own story.",author:"",theme:"depression",
+   echoes:[
+     {text:"You are not empty. You are disconnected. There is a difference.",author:"— rephrased",theme:"depression"},
+     {text:"The flatness you feel is not you. It is the distance between you and your life.",author:"— rephrased",theme:"depression"}
+   ]},
+  {text:"Forgiveness is not absolution for them. It is surgery on yourself.",author:"",theme:"forgiveness",
+   echoes:[
+     {text:"You forgive not because they deserve it. You forgive because you do.",author:"— rephrased",theme:"forgiveness"},
+     {text:"Holding the grudge costs you, not them. The rent is yours to pay.",author:"— rephrased",theme:"forgiveness"}
+   ]},
+];
+const DAP = [
+  "Generate a single deeply psychological and poetic quote (1-2 sentences) about the human tendency to sabotage our own happiness. No author. Just the quote. No quotation marks.",
+  "Generate a single haunting psychological quote (1-2 sentences) about how childhood wounds shape adult behaviour. Just the quote. No quotation marks.",
+  "Generate a single quote (1-2 sentences) about the fear of truly being known by another person. Just the quote. No quotation marks.",
+  "Generate a single philosophical quote (1-2 sentences) about how people confuse familiarity with love. Just the quote. No quotation marks.",
+  "Generate a single poetic quote (1-2 sentences) about the masks people wear and what lies beneath. Just the quote. No quotation marks.",
+];
+let dCount=0,dHist=[],dBusy=false;
+function dShouldEcho(){const r=Math.random(),b=Math.sin(dCount*1.618)*.15;return dHist.length>0&&(r+b)>.65;}
+function dPick(ex=-1){let i;do{i=Math.floor(Math.random()*DC.length);}while(i===ex&&DC.length>1);return i;}
+function dClear(){['dText','dDiv','dAuthor','dTheme','dAi','dEcho'].forEach(id=>document.getElementById(id).classList.remove('vis'));}
+function dReveal(isEcho,isAI){
+  setTimeout(()=>document.getElementById('dText').classList.add('vis'),50);
+  setTimeout(()=>document.getElementById('dDiv').classList.add('vis'),200);
+  setTimeout(()=>document.getElementById('dAuthor').classList.add('vis'),400);
+  setTimeout(()=>document.getElementById('dTheme').classList.add('vis'),600);
+  if(isAI)setTimeout(()=>document.getElementById('dAi').classList.add('vis'),800);
+  if(isEcho)setTimeout(()=>document.getElementById('dEcho').classList.add('vis'),100);
+}
+function dRender({text,author,theme,isEcho=false,isAI=false}){
+  dClear();
+  setTimeout(()=>{
+    document.getElementById('dText').textContent=text;
+    document.getElementById('dAuthor').textContent=author?`— ${author}`:'';
+    document.getElementById('dTheme').textContent=theme?`✦ ${theme}`:'';
+    document.getElementById('dAi').style.display=isAI?'inline-block':'none';
+    dReveal(isEcho,isAI);
+    document.getElementById('dNote').textContent=`Revelation ${dCount} of ∞`;
+  },300);
+}
+function initDark(){
+  dCount=1;const i=dPick();dHist.push({i,t:'o'});
+  dRender({text:DC[i].text,author:DC[i].author,theme:DC[i].theme});
+  const r=document.createElement('div');r.className='d-ring';
+  document.getElementById('dark-screen').appendChild(r);
+  setTimeout(()=>r.remove(),2200);
+}
+async function dNext(){
+  if(dBusy)return;dCount++;dBusy=true;
+  document.getElementById('dBtn').disabled=true;
+  const last=dHist[dHist.length-1];
+  if(Math.random()<.15){await dFetchAI();}
+  else if(dShouldEcho()){
+    const src=dHist[Math.floor(Math.random()*dHist.length)];
+    if(src.i===-1){const i=dPick(last?.i??-1);dHist.push({i,t:'o'});dRender({text:DC[i].text,author:DC[i].author,theme:DC[i].theme});}
+    else{const ea=DC[src.i].echoes,e=ea[Math.floor(Math.random()*ea.length)];dHist.push({i:src.i,t:'e'});dRender({text:e.text,author:e.author,theme:e.theme,isEcho:true});}
+  } else {
+    const i=dPick(last?.i??-1);dHist.push({i,t:'o'});dRender({text:DC[i].text,author:DC[i].author,theme:DC[i].theme});
+  }
+  setTimeout(()=>{dBusy=false;document.getElementById('dBtn').disabled=false;},1500);
+}
+async function dFetchAI(){
+  const p=DAP[Math.floor(Math.random()*DAP.length)];
+  dClear();const el=document.getElementById('dText');el.textContent='...';el.classList.add('vis','loading');
+  try{
+    const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,
+        system:"You are a psychologically deep quote generator. Respond with only the quote text — no quotation marks, no explanation.",
+        messages:[{role:"user",content:p}]})});
+    const data=await res.json();
+    const text=data.content?.[0]?.text?.trim()||"The mind writes itself in ink only it can see.";
+    el.classList.remove('loading');dHist.push({i:-1,t:'ai'});
+    dRender({text,author:'AI — from the collective unconscious',theme:'psyche',isAI:true});
+  }catch(e){el.classList.remove('loading');const i=dPick();dHist.push({i,t:'o'});dRender({text:DC[i].text,author:DC[i].author,theme:DC[i].theme});}
+}
+
+/* ════════════ BRIGHT / SIP — Premium Editorial ════════════ */
+const SC = [
+  {
+    text:"You didn't come this far to only come this far.",
+    author:"Unknown", flavor:"Momentum",
+    bg:"#D4522A", textColor:"#FFF3EC", accent:"#FFB89A",
+    wordStyles:["sw-display","sw-sans-upper","sw-serif-italic","sw-display","sw-sans-upper","sw-serif-bold","sw-display","sw-serif-italic","sw-display"],
+    echoes:[
+      {text:"The best part of your story hasn't been written yet.",flavor:"Momentum",wordStyles:["sw-sans-upper","sw-serif-bold","sw-display","sw-serif-italic","sw-sans-upper","sw-display","sw-serif-bold","sw-display"]},
+      {text:"Progress isn't always loud. But it's always moving.",flavor:"Momentum",wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-serif-italic","sw-sans-upper"]}
+    ]
+  },
+  {
+    text:"Good things take time. You are doing great.",
+    author:"Your future self", flavor:"Patience",
+    bg:"#2D6A4F", textColor:"#E8F5F0", accent:"#74C69D",
+    wordStyles:["sw-serif-bold","sw-literary","sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-literary"],
+    echoes:[
+      {text:"Every tree was once a seed that refused to stop.",flavor:"Patience",wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-literary","sw-serif-bold","sw-display","sw-serif-italic","sw-sans-upper"]},
+      {text:"You can't rush sunrise. And you can't rush yourself.",flavor:"Patience",wordStyles:["sw-serif-bold","sw-display","sw-literary","sw-serif-italic","sw-sans-upper","sw-display","sw-serif-bold"]}
+    ]
+  },
+  {
+    text:"Be the energy you want to attract.",
+    author:"Vibes", flavor:"Energy",
+    bg:"#1D3461", textColor:"#EEF3FF", accent:"#7EB8F7",
+    wordStyles:["sw-sans-upper","sw-display","sw-serif-bold","sw-serif-italic","sw-sans-upper","sw-display","sw-serif-bold"],
+    echoes:[
+      {text:"Your energy arrives before you even speak.",flavor:"Energy",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-serif-italic","sw-display","sw-serif-bold","sw-sans-upper"]},
+      {text:"Mood is contagious. Make yours worth catching.",flavor:"Energy",wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper"]}
+    ]
+  },
+  {
+    text:"Happiness is not found. It is built.",
+    author:"", flavor:"Joy",
+    bg:"#6B2D8B", textColor:"#F9F0FF", accent:"#CE93D8",
+    wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold"],
+    echoes:[
+      {text:"Joy isn't something you find. It's something you make.",flavor:"Joy",wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-literary","sw-serif-bold","sw-display","sw-sans-upper","sw-serif-bold"]},
+      {text:"The happiest moments are the ones you create.",flavor:"Joy",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold"]}
+    ]
+  },
+  {
+    text:"Small steps. Every day. That's the whole secret.",
+    author:"Road wisdom", flavor:"Growth",
+    bg:"#37474F", textColor:"#ECEFF1", accent:"#90A4AE",
+    wordStyles:["sw-serif-italic","sw-display","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper","sw-serif-bold","sw-display"],
+    echoes:[
+      {text:"Consistency is the most underrated superpower.",flavor:"Growth",wordStyles:["sw-sans-upper","sw-display","sw-serif-italic","sw-literary","sw-serif-bold","sw-sans-upper","sw-display"]},
+      {text:"One percent better every day beats overnight genius.",flavor:"Growth",wordStyles:["sw-display","sw-serif-bold","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-sans-upper"]}
+    ]
+  },
+  {
+    text:"Kindness costs nothing and changes everything.",
+    author:"The internet, at its best", flavor:"Kindness",
+    bg:"#8E0045", textColor:"#FFF0F5", accent:"#FFABC8",
+    wordStyles:["sw-display","sw-serif-bold","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-sans-upper"],
+    echoes:[
+      {text:"One kind word can rewrite someone's entire day.",flavor:"Kindness",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold","sw-sans-upper"]},
+      {text:"Leave people feeling better than you found them.",flavor:"Kindness",wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-literary","sw-display","sw-sans-upper"]}
+    ]
+  },
+  {
+    text:"You are a masterpiece. Still in progress.",
+    author:"Sophia Bush", flavor:"Becoming",
+    bg:"#1A5276", textColor:"#EBF5FB", accent:"#7FB3D3",
+    wordStyles:["sw-sans-upper","sw-serif-bold","sw-display","sw-serif-italic","sw-sans-upper","sw-literary","sw-display","sw-serif-bold"],
+    echoes:[
+      {text:"Finished and perfect are not the same thing. Choose finished.",flavor:"Becoming",wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper","sw-serif-bold","sw-display"]},
+      {text:"You are not unfinished. You are still becoming.",flavor:"Becoming",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold"]}
+    ]
+  },
+  {
+    text:"Collect moments. Things fade. Memories stay.",
+    author:"Wanderers everywhere", flavor:"Presence",
+    bg:"#5D4037", textColor:"#FBE9E7", accent:"#FFAB91",
+    wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-serif-bold","sw-sans-upper"],
+    echoes:[
+      {text:"The best souvenirs live in your chest, not your suitcase.",flavor:"Presence",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold","sw-sans-upper"]},
+      {text:"Put the phone down. The moment is happening now.",flavor:"Presence",wordStyles:["sw-display","sw-serif-bold","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold"]}
+    ]
+  },
+  {
+    text:"Rest is not a reward. Rest is a requirement.",
+    author:"Your body, politely", flavor:"Restoration",
+    bg:"#004D40", textColor:"#E0F2F1", accent:"#80CBC4",
+    wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold","sw-sans-upper"],
+    echoes:[
+      {text:"You cannot pour from an empty cup. Fill yours first.",flavor:"Restoration",wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-serif-bold","sw-sans-upper"]},
+      {text:"Slowing down is not quitting. It is refuelling.",flavor:"Restoration",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold"]}
+    ]
+  },
+  {
+    text:"The view is worth the climb. Always.",
+    author:"Every mountain ever", flavor:"Courage",
+    bg:"#283593", textColor:"#E8EAF6", accent:"#9FA8DA",
+    wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper"],
+    echoes:[
+      {text:"Hard things have a way of becoming easy things.",flavor:"Courage",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold"]},
+      {text:"If it doesn't test you, it can't change you.",flavor:"Courage",wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper"]}
+    ]
+  },
+  {
+    text:"Done is better than perfect.",
+    author:"", flavor:"Action",
+    bg:"#B71C1C", textColor:"#FFEBEE", accent:"#EF9A9A",
+    wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display"],
+    echoes:[
+      {text:"A finished thing beats a perfect idea every single time.",flavor:"Action",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-sans-upper","sw-serif-bold"]},
+      {text:"Start messy. Refine later. But start.",flavor:"Action",wordStyles:["sw-display","sw-sans-upper","sw-serif-italic","sw-literary","sw-serif-bold","sw-display"]}
+    ]
+  },
+  {
+    text:"Your only competition is who you were yesterday.",
+    author:"", flavor:"Self-Growth",
+    bg:"#1B5E20", textColor:"#F1F8E9", accent:"#AED581",
+    wordStyles:["sw-sans-upper","sw-serif-bold","sw-display","sw-serif-italic","sw-sans-upper","sw-literary","sw-serif-bold","sw-display"],
+    echoes:[
+      {text:"Stop looking sideways. Your race has one lane.",flavor:"Self-Growth",wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-literary","sw-display","sw-sans-upper"]},
+      {text:"Beat yesterday. That's the whole game.",flavor:"Self-Growth",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-literary","sw-serif-italic","sw-display"]}
+    ]
+  },
+  {
+    text:"Gratitude turns what we have into enough.",
+    author:"", flavor:"Gratitude",
+    bg:"#4E342E", textColor:"#EFEBE9", accent:"#BCAAA4",
+    wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper"],
+    echoes:[
+      {text:"The life you have is someone else's answered prayer.",flavor:"Gratitude",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-serif-italic","sw-literary","sw-display","sw-serif-bold","sw-sans-upper"]},
+      {text:"Notice more. Need less. That's the shortcut to enough.",flavor:"Gratitude",wordStyles:["sw-display","sw-sans-upper","sw-serif-bold","sw-literary","sw-serif-italic","sw-display","sw-sans-upper"]}
+    ]
+  },
+  {
+    text:"Speak kindly to yourself. You are always listening.",
+    author:"", flavor:"Self-Talk",
+    bg:"#880E4F", textColor:"#FCE4EC", accent:"#F48FB1",
+    wordStyles:["sw-serif-italic","sw-display","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-serif-italic","sw-sans-upper"],
+    echoes:[
+      {text:"The voice in your head sets the tone for everything else.",flavor:"Self-Talk",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold"]},
+      {text:"You would never speak to a friend the way you speak to yourself.",flavor:"Self-Talk",wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper","sw-serif-bold"]}
+    ]
+  },
+  {
+    text:"Clarity comes from action, not thought.",
+    author:"", flavor:"Decisiveness",
+    bg:"#006064", textColor:"#E0F7FA", accent:"#80DEEA",
+    wordStyles:["sw-display","sw-serif-bold","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-sans-upper"],
+    echoes:[
+      {text:"You won't think your way into a new life. You'll act your way into one.",flavor:"Decisiveness",wordStyles:["sw-serif-italic","sw-sans-upper","sw-display","sw-serif-bold","sw-literary","sw-display","sw-sans-upper","sw-serif-bold"]},
+      {text:"Waiting for certainty is a decision too. Choose movement instead.",flavor:"Decisiveness",wordStyles:["sw-display","sw-serif-bold","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold"]}
+    ]
+  },
+  {
+    text:"You belong in every room you walk into.",
+    author:"", flavor:"Confidence",
+    bg:"#311B92", textColor:"#EDE7F6", accent:"#B39DDB",
+    wordStyles:["sw-sans-upper","sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper"],
+    echoes:[
+      {text:"You weren't given access. You earned it. Own it.",flavor:"Confidence",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold"]},
+      {text:"Confidence is not arrogance. It is trust in yourself.",flavor:"Confidence",wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-literary","sw-display","sw-sans-upper"]}
+    ]
+  },
+  {
+    text:"Let it go. Make room for what's next.",
+    author:"", flavor:"Release",
+    bg:"#01579B", textColor:"#E1F5FE", accent:"#81D4FA",
+    wordStyles:["sw-serif-italic","sw-display","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper","sw-serif-bold"],
+    echoes:[
+      {text:"Holding on to what's gone is the rent you pay on an empty house.",flavor:"Release",wordStyles:["sw-display","sw-sans-upper","sw-serif-italic","sw-literary","sw-serif-bold","sw-display","sw-sans-upper"]},
+      {text:"Releasing is not losing. It's creating space.",flavor:"Release",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-serif-italic","sw-literary","sw-display","sw-serif-bold"]}
+    ]
+  },
+  {
+    text:"Ordinary days, done with love, make an extraordinary life.",
+    author:"", flavor:"Everyday",
+    bg:"#3E2723", textColor:"#EFEBE9", accent:"#A1887F",
+    wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper","sw-serif-bold","sw-display"],
+    echoes:[
+      {text:"The magic is in the mundane. Look closer.",flavor:"Everyday",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-sans-upper"]},
+      {text:"Mondays matter. Tuesdays matter. All of it counts.",flavor:"Everyday",wordStyles:["sw-display","sw-serif-bold","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold"]}
+    ]
+  },
+  {
+    text:"Ask for help. It is a sign of intelligence.",
+    author:"", flavor:"Courage",
+    bg:"#004D61", textColor:"#E0F4FF", accent:"#80C8DC",
+    wordStyles:["sw-display","sw-sans-upper","sw-serif-bold","sw-serif-italic","sw-display","sw-literary","sw-sans-upper","sw-serif-bold"],
+    echoes:[
+      {text:"Nobody worth admiring got there entirely alone.",flavor:"Courage",wordStyles:["sw-serif-italic","sw-display","sw-sans-upper","sw-serif-bold","sw-literary","sw-display","sw-sans-upper"]},
+      {text:"Reaching out is not weakness. It is wisdom wearing a brave face.",flavor:"Courage",wordStyles:["sw-display","sw-serif-bold","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold","sw-sans-upper"]}
+    ]
+  },
+  {
+    text:"Your future self is watching. Make them proud.",
+    author:"", flavor:"Legacy",
+    bg:"#1A237E", textColor:"#E8EAF6", accent:"#9FA8DA",
+    wordStyles:["sw-sans-upper","sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper","sw-serif-bold"],
+    echoes:[
+      {text:"The choices you make today are gifts or debts to your future self.",flavor:"Legacy",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold","sw-sans-upper"]},
+      {text:"In ten years, today will be the old days. Use them well.",flavor:"Legacy",wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper"]}
+    ]
+  },
+  {
+    text:"Growth and comfort cannot coexist.",
+    author:"", flavor:"Challenge",
+    bg:"#33691E", textColor:"#F1F8E9", accent:"#AED581",
+    wordStyles:["sw-display","sw-serif-bold","sw-sans-upper","sw-serif-italic","sw-display","sw-literary","sw-sans-upper"],
+    echoes:[
+      {text:"If nothing in your life is difficult right now, nothing is growing.",flavor:"Challenge",wordStyles:["sw-serif-italic","sw-sans-upper","sw-display","sw-serif-bold","sw-literary","sw-display","sw-sans-upper","sw-serif-bold"]},
+      {text:"The edge of your comfort zone is the beginning of your story.",flavor:"Challenge",wordStyles:["sw-display","sw-serif-bold","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold"]}
+    ]
+  },
+  {
+    text:"What you water, grows. Choose carefully.",
+    author:"", flavor:"Intention",
+    bg:"#00695C", textColor:"#E0F2F1", accent:"#80CBC4",
+    wordStyles:["sw-serif-italic","sw-display","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper","sw-serif-bold"],
+    echoes:[
+      {text:"Your attention is the most valuable thing you own. Spend it wisely.",flavor:"Intention",wordStyles:["sw-sans-upper","sw-display","sw-serif-italic","sw-literary","sw-serif-bold","sw-display","sw-sans-upper","sw-serif-bold"]},
+      {text:"What you feed grows stronger. What you ignore fades.",flavor:"Intention",wordStyles:["sw-display","sw-serif-bold","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold"]}
+    ]
+  },
+  {
+    text:"Be someone who makes everyone feel seen.",
+    author:"", flavor:"Connection",
+    bg:"#6A1B9A", textColor:"#F3E5F5", accent:"#CE93D8",
+    wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper","sw-serif-bold"],
+    echoes:[
+      {text:"The greatest gift you can give is your full attention.",flavor:"Connection",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold","sw-sans-upper"]},
+      {text:"People remember how you made them feel long after they forget what you said.",flavor:"Connection",wordStyles:["sw-display","sw-sans-upper","sw-serif-italic","sw-literary","sw-serif-bold","sw-display","sw-sans-upper"]}
+    ]
+  },
+  {
+    text:"Discipline is freedom in disguise.",
+    author:"", flavor:"Discipline",
+    bg:"#212121", textColor:"#F5F5F5", accent:"#BDBDBD",
+    wordStyles:["sw-display","sw-serif-bold","sw-sans-upper","sw-serif-italic","sw-display","sw-literary","sw-sans-upper"],
+    echoes:[
+      {text:"The most free people you know are probably the most consistent.",flavor:"Discipline",wordStyles:["sw-serif-italic","sw-sans-upper","sw-display","sw-serif-bold","sw-literary","sw-display","sw-sans-upper","sw-serif-bold"]},
+      {text:"Structure is not a cage. It is a launchpad.",flavor:"Discipline",wordStyles:["sw-display","sw-serif-bold","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold"]}
+    ]
+  },
+  {
+    text:"The world needs what only you can give.",
+    author:"", flavor:"Purpose",
+    bg:"#AD1457", textColor:"#FCE4EC", accent:"#F48FB1",
+    wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper","sw-serif-bold"],
+    echoes:[
+      {text:"There is a version of your life where you stopped holding back. Live that one.",flavor:"Purpose",wordStyles:["sw-sans-upper","sw-display","sw-serif-italic","sw-literary","sw-serif-bold","sw-display","sw-sans-upper","sw-serif-bold"]},
+      {text:"Your specific combination of gifts exists once in all of history. Use them.",flavor:"Purpose",wordStyles:["sw-display","sw-serif-bold","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold","sw-sans-upper"]}
+    ]
+  },
+  {
+    text:"Setbacks are just setups for something better.",
+    author:"", flavor:"Resilience",
+    bg:"#BF360C", textColor:"#FBE9E7", accent:"#FF8A65",
+    wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper","sw-serif-bold","sw-display"],
+    echoes:[
+      {text:"The plot twist you didn't want is often the one that saves the story.",flavor:"Resilience",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold","sw-sans-upper"]},
+      {text:"Redirect is not defeat. It's navigation.",flavor:"Resilience",wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-literary","sw-display","sw-sans-upper"]}
+    ]
+  },
+  {
+    text:"Say yes to the things that light you up.",
+    author:"", flavor:"Aliveness",
+    bg:"#E65100", textColor:"#FFF3E0", accent:"#FFCC80",
+    wordStyles:["sw-serif-italic","sw-display","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper","sw-serif-bold"],
+    echoes:[
+      {text:"Your enthusiasm is data. It's telling you where to go.",flavor:"Aliveness",wordStyles:["sw-sans-upper","sw-display","sw-serif-italic","sw-literary","sw-serif-bold","sw-display","sw-sans-upper"]},
+      {text:"A life lived at half-interest is a life half-lived.",flavor:"Aliveness",wordStyles:["sw-display","sw-serif-bold","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold"]}
+    ]
+  },
+  {
+    text:"Comparison is the thief of joy and the killer of progress.",
+    author:"", flavor:"Focus",
+    bg:"#4527A0", textColor:"#EDE7F6", accent:"#B39DDB",
+    wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper","sw-serif-bold","sw-display"],
+    echoes:[
+      {text:"Their highlight reel is not your reality. Eyes on your own page.",flavor:"Focus",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold","sw-sans-upper"]},
+      {text:"You can't run your own race while watching everyone else's.",flavor:"Focus",wordStyles:["sw-display","sw-sans-upper","sw-serif-italic","sw-literary","sw-serif-bold","sw-display","sw-sans-upper"]}
+    ]
+  },
+  {
+    text:"Invest in yourself. It is the highest return.",
+    author:"Warren Buffett", flavor:"Self-Investment",
+    bg:"#0D47A1", textColor:"#E3F2FD", accent:"#90CAF9",
+    wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper","sw-serif-bold"],
+    echoes:[
+      {text:"Every skill you build, every book you read, pays compound interest.",flavor:"Self-Investment",wordStyles:["sw-sans-upper","sw-display","sw-serif-italic","sw-literary","sw-serif-bold","sw-display","sw-sans-upper","sw-serif-bold"]},
+      {text:"The best version of you is not a destination. It's a daily practice.",flavor:"Self-Investment",wordStyles:["sw-display","sw-serif-bold","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold","sw-sans-upper"]}
+    ]
+  },
+  {
+    text:"Your vibe is a currency. Spend it on people who can afford it.",
+    author:"", flavor:"Standards",
+    bg:"#1C0B2E", textColor:"#F0E6FF", accent:"#C084FC",
+    wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-serif-italic","sw-display","sw-literary","sw-sans-upper","sw-serif-bold","sw-display","sw-serif-italic","sw-sans-upper","sw-display"],
+    echoes:[
+      {text:"Not everyone deserves the full version of you.",flavor:"Standards",wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-literary","sw-display","sw-sans-upper"]},
+      {text:"Energy is expensive. Invoice accordingly.",flavor:"Standards",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-serif-italic","sw-literary","sw-display"]}
+    ]
+  },
+  {
+    text:"Romanticise your life. Nobody else is going to do it for you.",
+    author:"", flavor:"Narrative",
+    bg:"#7F1D1D", textColor:"#FFF1F1", accent:"#FCA5A5",
+    wordStyles:["sw-display","sw-serif-bold","sw-sans-upper","sw-serif-italic","sw-display","sw-literary","sw-sans-upper","sw-serif-bold","sw-display","sw-serif-italic","sw-sans-upper"],
+    echoes:[
+      {text:"You are the main character. Act like it.",flavor:"Narrative",wordStyles:["sw-sans-upper","sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-literary"]},
+      {text:"Make your ordinary Tuesday feel like a French film.",flavor:"Narrative",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-serif-italic","sw-literary","sw-display","sw-sans-upper","sw-serif-bold"]}
+    ]
+  },
+  {
+    text:"Soft life is a discipline. Peace has prerequisites.",
+    author:"", flavor:"Luxury",
+    bg:"#4A1942", textColor:"#FAF0FF", accent:"#E879F9",
+    wordStyles:["sw-serif-italic","sw-display","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper","sw-serif-bold"],
+    echoes:[
+      {text:"Ease is earned. Calm is constructed.",flavor:"Luxury",wordStyles:["sw-display","sw-serif-bold","sw-sans-upper","sw-serif-italic","sw-literary","sw-display"]},
+      {text:"The good life is built. Then maintained. Then defended.",flavor:"Luxury",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold"]}
+    ]
+  },
+  {
+    text:"Be so busy becoming that you forget to compare.",
+    author:"", flavor:"Focus",
+    bg:"#052E16", textColor:"#ECFDF5", accent:"#34D399",
+    wordStyles:["sw-display","sw-sans-upper","sw-serif-bold","sw-serif-italic","sw-display","sw-literary","sw-sans-upper","sw-serif-bold","sw-display"],
+    echoes:[
+      {text:"The most successful people are too in motion to be jealous.",flavor:"Focus",wordStyles:["sw-sans-upper","sw-display","sw-serif-italic","sw-literary","sw-serif-bold","sw-display","sw-sans-upper","sw-serif-italic"]},
+      {text:"Building something leaves no hands free for scorekeeping.",flavor:"Focus",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold"]}
+    ]
+  },
+  {
+    text:"Elegance is refusal. Know what to leave out.",
+    author:"Coco Chanel (adapted)", flavor:"Edit",
+    bg:"#111827", textColor:"#F9FAFB", accent:"#F59E0B",
+    wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper","sw-serif-bold"],
+    echoes:[
+      {text:"The art is not in what you add. It is in what you cut.",flavor:"Edit",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-serif-italic","sw-literary","sw-display","sw-sans-upper","sw-serif-bold"]},
+      {text:"Less is not less. It is precision wearing a minimalist coat.",flavor:"Edit",wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper"]}
+    ]
+  },
+  {
+    text:"Your standards are not too high. Their effort was too low.",
+    author:"", flavor:"Worth",
+    bg:"#450A0A", textColor:"#FFF5F5", accent:"#FB7185",
+    wordStyles:["sw-sans-upper","sw-serif-bold","sw-display","sw-serif-italic","sw-sans-upper","sw-display","sw-literary","sw-serif-bold","sw-sans-upper","sw-display"],
+    echoes:[
+      {text:"Never negotiate your worth with someone who can't appraise it.",flavor:"Worth",wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-literary","sw-display","sw-sans-upper","sw-serif-italic"]},
+      {text:"The right people won't make you beg for basic decency.",flavor:"Worth",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold"]}
+    ]
+  },
+  {
+    text:"Audacity is a skill. Practice it daily.",
+    author:"", flavor:"Boldness",
+    bg:"#1E3A5F", textColor:"#EFF6FF", accent:"#60A5FA",
+    wordStyles:["sw-display","sw-serif-bold","sw-sans-upper","sw-serif-italic","sw-display","sw-literary","sw-sans-upper"],
+    echoes:[
+      {text:"You didn't lose because you were bold. You lost because you hesitated.",flavor:"Boldness",wordStyles:["sw-sans-upper","sw-display","sw-serif-italic","sw-literary","sw-serif-bold","sw-display","sw-sans-upper","sw-serif-italic"]},
+      {text:"The ask costs nothing. The silence costs everything.",flavor:"Boldness",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold"]}
+    ]
+  },
+  {
+    text:"Chaos is just order that hasn't introduced itself yet.",
+    author:"", flavor:"Perspective",
+    bg:"#27272A", textColor:"#FAFAFA", accent:"#A3E635",
+    wordStyles:["sw-serif-italic","sw-display","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper","sw-serif-bold","sw-display","sw-serif-italic"],
+    echoes:[
+      {text:"Nothing is random. Some patterns just take longer to recognise.",flavor:"Perspective",wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-literary","sw-display","sw-sans-upper"]},
+      {text:"Trust the mess. The best things were chaos first.",flavor:"Perspective",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-serif-italic","sw-literary","sw-display","sw-serif-bold"]}
+    ]
+  },
+  {
+    text:"They will remember how specific your joy was.",
+    author:"", flavor:"Singularity",
+    bg:"#064E3B", textColor:"#ECFDF5", accent:"#6EE7B7",
+    wordStyles:["sw-display","sw-serif-bold","sw-sans-upper","sw-serif-italic","sw-display","sw-literary","sw-sans-upper","sw-serif-bold"],
+    echoes:[
+      {text:"Generic joy is forgettable. Your weird specific joy is contagious.",flavor:"Singularity",wordStyles:["sw-sans-upper","sw-display","sw-serif-italic","sw-literary","sw-serif-bold","sw-display","sw-sans-upper","sw-serif-italic"]},
+      {text:"The things only you love are the most interesting things about you.",flavor:"Singularity",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold"]}
+    ]
+  },
+  {
+    text:"Overthinking is underpreparing with extra steps.",
+    author:"", flavor:"Clarity",
+    bg:"#1E1B4B", textColor:"#EEF2FF", accent:"#818CF8",
+    wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper","sw-serif-bold","sw-display"],
+    echoes:[
+      {text:"Your brain is not a waiting room. Make a decision.",flavor:"Clarity",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-serif-italic","sw-literary","sw-display","sw-sans-upper"]},
+      {text:"Analysis without action is just anxiety with good vocabulary.",flavor:"Clarity",wordStyles:["sw-display","sw-sans-upper","sw-serif-italic","sw-literary","sw-serif-bold","sw-display","sw-sans-upper","sw-serif-italic"]}
+    ]
+  },
+  {
+    text:"The version of you that exists in five years is already embarrassed.",
+    author:"", flavor:"Evolution",
+    bg:"#3B0764", textColor:"#FAF5FF", accent:"#D946EF",
+    wordStyles:["sw-sans-upper","sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper","sw-serif-bold","sw-display","sw-serif-italic","sw-sans-upper","sw-display"],
+    echoes:[
+      {text:"Future you is watching. She's either nodding or cringing.",flavor:"Evolution",wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-literary","sw-display","sw-sans-upper"]},
+      {text:"Outgrow yourself on purpose. It's the highest form of loyalty.",flavor:"Evolution",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold"]}
+    ]
+  },
+  {
+    text:"Boredom is the universe asking you to create something.",
+    author:"", flavor:"Creation",
+    bg:"#7C2D12", textColor:"#FFF7ED", accent:"#FB923C",
+    wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-serif-italic","sw-display","sw-literary","sw-sans-upper","sw-serif-bold","sw-display","sw-serif-italic"],
+    echoes:[
+      {text:"Every great invention started with someone who couldn't sit still.",flavor:"Creation",wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-literary","sw-display","sw-sans-upper"]},
+      {text:"Idle hands are just creative hands waiting for the brief.",flavor:"Creation",wordStyles:["sw-sans-upper","sw-serif-bold","sw-display","sw-serif-italic","sw-literary","sw-display","sw-sans-upper","sw-serif-italic"]}
+    ]
+  },
+  {
+    text:"Confidence is not thinking you're the best. It's not caring who is.",
+    author:"", flavor:"Confidence",
+    bg:"#0F172A", textColor:"#F8FAFC", accent:"#38BDF8",
+    wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper","sw-serif-bold","sw-display","sw-serif-italic","sw-sans-upper","sw-display"],
+    echoes:[
+      {text:"Real security doesn't need applause.",flavor:"Confidence",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-serif-italic","sw-literary","sw-display"]},
+      {text:"Unshakeable is the best aesthetic.",flavor:"Confidence",wordStyles:["sw-display","sw-sans-upper","sw-serif-italic","sw-literary","sw-serif-bold","sw-display"]}
+    ]
+  },
+  {
+    text:"You have been assigned this mountain to show others it can be moved.",
+    author:"", flavor:"Purpose",
+    bg:"#1C1917", textColor:"#FAFAF9", accent:"#FCD34D",
+    wordStyles:["sw-sans-upper","sw-display","sw-serif-bold","sw-serif-italic","sw-sans-upper","sw-display","sw-literary","sw-sans-upper","sw-serif-bold","sw-display","sw-serif-italic","sw-sans-upper","sw-display"],
+    echoes:[
+      {text:"Your hardest chapter is someone else's survival guide.",flavor:"Purpose",wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-literary","sw-display","sw-sans-upper","sw-serif-italic"]},
+      {text:"The path you cut becomes the road others walk.",flavor:"Purpose",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold"]}
+    ]
+  },
+  {
+    text:"Stop explaining yourself to people who misunderstand on purpose.",
+    author:"", flavor:"Discernment",
+    bg:"#1A1A2E", textColor:"#E0E0FF", accent:"#7C73E6",
+    wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper","sw-serif-bold","sw-display","sw-serif-italic","sw-sans-upper"],
+    echoes:[
+      {text:"You don't owe clarity to those allergic to it.",flavor:"Discernment",wordStyles:["sw-sans-upper","sw-display","sw-serif-italic","sw-literary","sw-serif-bold","sw-display","sw-sans-upper"]},
+      {text:"Some people don't want to understand. They want ammunition.",flavor:"Discernment",wordStyles:["sw-display","sw-serif-bold","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold"]}
+    ]
+  },
+  {
+    text:"You are not a draft. Stop revising yourself for their approval.",
+    author:"", flavor:"Authenticity",
+    bg:"#4C0519", textColor:"#FFF1F2", accent:"#FDA4AF",
+    wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-serif-italic","sw-display","sw-literary","sw-sans-upper","sw-serif-bold","sw-display","sw-serif-italic","sw-sans-upper"],
+    echoes:[
+      {text:"You're not a rough cut waiting to be edited. This is the final cut.",flavor:"Authenticity",wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-literary","sw-display","sw-sans-upper","sw-serif-italic"]},
+      {text:"The people who love the edited version won't survive the real one.",flavor:"Authenticity",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-literary","sw-serif-italic","sw-display","sw-serif-bold"]}
+    ]
+  },
+  {
+    text:"Taste is free. Use it aggressively.",
+    author:"", flavor:"Aesthetic",
+    bg:"#12211C", textColor:"#E8F5F0", accent:"#4ADE80",
+    wordStyles:["sw-display","sw-serif-bold","sw-sans-upper","sw-serif-italic","sw-display","sw-literary","sw-sans-upper"],
+    echoes:[
+      {text:"Mediocrity is a choice and so is its opposite.",flavor:"Aesthetic",wordStyles:["sw-sans-upper","sw-serif-bold","sw-display","sw-serif-italic","sw-literary","sw-display","sw-sans-upper"]},
+      {text:"Have opinions about everything. Strong ones. Adjust as you go.",flavor:"Aesthetic",wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper"]}
+    ]
+  },
+  {
+    text:"Your attention is the rarest thing you own. Guard it like art.",
+    author:"", flavor:"Intention",
+    bg:"#1E0A3C", textColor:"#F5F0FF", accent:"#A78BFA",
+    wordStyles:["sw-sans-upper","sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper","sw-serif-bold","sw-display","sw-serif-italic"],
+    echoes:[
+      {text:"Where your attention goes, your life follows.",flavor:"Intention",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-serif-italic","sw-literary","sw-display"]},
+      {text:"The algorithm is not your curator. You are.",flavor:"Intention",wordStyles:["sw-display","sw-sans-upper","sw-serif-italic","sw-literary","sw-serif-bold","sw-display","sw-sans-upper"]}
+    ]
+  },
+  {
+    text:"Good taste and bad timing still make great stories.",
+    author:"", flavor:"Philosophy",
+    bg:"#292524", textColor:"#FAFAF9", accent:"#E7C989",
+    wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-serif-italic","sw-display","sw-literary","sw-sans-upper","sw-serif-bold","sw-display","sw-serif-italic"],
+    echoes:[
+      {text:"The wrong moment for the right thing is still the right thing.",flavor:"Philosophy",wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-literary","sw-display","sw-sans-upper","sw-serif-italic"]},
+      {text:"Mistimed, misread, misunderstood. Still brilliant.",flavor:"Philosophy",wordStyles:["sw-sans-upper","sw-display","sw-serif-italic","sw-literary","sw-serif-bold","sw-display","sw-sans-upper"]}
+    ]
+  },
+  {
+    text:"The world will adjust. It always does. Walk in anyway.",
+    author:"", flavor:"Audacity",
+    bg:"#0C1445", textColor:"#EEF0FF", accent:"#6366F1",
+    wordStyles:["sw-display","sw-serif-italic","sw-sans-upper","sw-serif-bold","sw-display","sw-literary","sw-sans-upper","sw-serif-bold","sw-display","sw-serif-italic","sw-sans-upper"],
+    echoes:[
+      {text:"Your arrival doesn't need permission. Enter.",flavor:"Audacity",wordStyles:["sw-serif-bold","sw-display","sw-sans-upper","sw-serif-italic","sw-literary","sw-display","sw-sans-upper"]},
+      {text:"Rooms change when the right energy enters. Be that energy.",flavor:"Audacity",wordStyles:["sw-display","sw-sans-upper","sw-serif-italic","sw-literary","sw-serif-bold","sw-display","sw-sans-upper","sw-serif-bold"]}
+    ]
+  },
+];
+
+const SAP = [
+  "Write a single crisp, uplifting quote (max 10 words) about momentum or moving forward. No quotation marks. No author.",
+  "Write a single sharp, feel-good quote (max 10 words) about enjoying small moments. No quotation marks. No author.",
+  "Write a single punchy quote (max 9 words) about self-belief. No quotation marks. No author.",
+  "Write a single elegant motivational quote (max 10 words) about showing up consistently. No quotation marks. No author.",
+  "Write a single clever and warm quote (max 10 words) about rest or recharging. No quotation marks. No author.",
+];
+
+const AI_BG_PALETTES = [
+  {bg:"#212121",textColor:"#F5F5F5",accent:"#BDBDBD"},
+  {bg:"#BF360C",textColor:"#FBE9E7",accent:"#FF8A65"},
+  {bg:"#1A237E",textColor:"#E8EAF6",accent:"#9FA8DA"},
+  {bg:"#1B5E20",textColor:"#E8F5E9",accent:"#81C784"},
+  {bg:"#4A148C",textColor:"#F3E5F5",accent:"#CE93D8"},
+];
+
+let sipCount=0,sipHist=[],sipBusy=false;
+function sipShouldEcho(){const r=Math.random(),b=Math.sin(sipCount*1.618)*.15;return sipHist.length>0&&(r+b)>.65;}
+function sipPick(ex=-1){let i;do{i=Math.floor(Math.random()*SC.length);}while(i===ex&&SC.length>1);return i;}
+
+const WORD_CLASSES = ['sw-serif-bold','sw-serif-italic','sw-sans-upper','sw-display','sw-literary','sw-plain'];
+function getWordClass(idx, styles) {
+  if(styles && styles[idx]) return styles[idx];
+  return WORD_CLASSES[idx % WORD_CLASSES.length];
+}
+
+function getWordSize(idx, total) {
+  const rhythm = [1, 0.88, 1.05, 0.92, 1.12, 0.9, 1.08, 0.85, 1];
+  return rhythm[idx % rhythm.length];
+}
+
+function buildStyledText(text, wordStyles, textColor, accent) {
+  const container = document.getElementById('sipWordContainer');
+  container.innerHTML = '';
+  const words = text.split(' ');
+  const baseSize = Math.max(32, Math.min(62, Math.floor(580 / Math.max(text.length, 1) * 2.8)));
+
+  words.forEach((word, idx) => {
+    const span = document.createElement('span');
+    span.className = 'sip-word ' + getWordClass(idx, wordStyles);
+    const sizeMultiplier = getWordSize(idx, words.length);
+    span.style.fontSize = `${Math.round(baseSize * sizeMultiplier)}px`;
+
+    const useAccent = (idx % 4 === 2) || (idx % 7 === 0 && idx !== 0);
+    span.style.color = useAccent ? accent : textColor;
+
+    span.textContent = word;
+    container.appendChild(span);
+
+    if(idx < words.length - 1) {
+      container.appendChild(document.createTextNode(' '));
+    }
+  });
+}
+
+function setSipTheme(bg, textColor, accent) {
+  document.getElementById('sipBgLayer').style.backgroundColor = bg;
+  const s = document.getElementById('bright-screen').style;
+  s.setProperty('--sip-text', textColor);
+  s.setProperty('--sip-accent', accent);
+}
+
+function sipHideFn() {
+  const qb = document.getElementById('sipQuoteBlock');
+  qb.classList.remove('vis');
+  ['sipRule','sipMeta','sipEcho','sipAi'].forEach(id => document.getElementById(id).classList.remove('vis'));
+}
+
+function sipReveal(isEcho, isAI) {
+  setTimeout(() => {
+    document.getElementById('sipQuoteBlock').classList.add('vis');
+    setTimeout(() => document.getElementById('sipRule').classList.add('vis'), 300);
+    setTimeout(() => document.getElementById('sipMeta').classList.add('vis'), 500);
+    if(isEcho) document.getElementById('sipEcho').classList.add('vis');
+    if(isAI) { setTimeout(() => document.getElementById('sipAi').classList.add('vis'), 700); }
+  }, 80);
+}
+
+function sipRender({text, author, flavor, bg, textColor, accent, wordStyles, isEcho=false, isAI=false}) {
+  sipHideFn();
+  setSipTheme(bg, textColor, accent);
+  setTimeout(() => {
+    buildStyledText(text, wordStyles, textColor, accent);
+    document.getElementById('sipAuthor').textContent = author ? author : '';
+    document.getElementById('sipFlavor').textContent = flavor || '';
+    document.getElementById('sipMetaDot').style.display = author ? 'block' : 'none';
+    document.getElementById('sipAi').style.display = isAI ? 'inline-block' : 'none';
+    const num = String(sipCount).padStart(3,'0');
+    document.getElementById('sipCtr').textContent = num;
+    document.getElementById('sipWatermark').textContent = num;
+    sipReveal(isEcho, isAI);
+  }, 120);
+}
+
+function initSip() {
+  sipCount = 1;
+  const i = sipPick();
+  sipHist.push({i, t:'o'});
+  const q = SC[i];
+  sipRender({text:q.text, author:q.author, flavor:q.flavor, bg:q.bg, textColor:q.textColor, accent:q.accent, wordStyles:q.wordStyles});
+}
+
+async function sipNext() {
+  if(sipBusy) return;
+  sipCount++; sipBusy = true;
+  document.getElementById('sipBtn').disabled = true;
+  const last = sipHist[sipHist.length-1];
+
+  if(Math.random() < .15) {
+    await sipFetchAI();
+  } else if(sipShouldEcho()) {
+    const src = sipHist[Math.floor(Math.random() * sipHist.length)];
+    if(src.i === -1) {
+      const i = sipPick(last?.i ?? -1); sipHist.push({i,t:'o'});
+      const q = SC[i];
+      sipRender({text:q.text, author:q.author, flavor:q.flavor, bg:q.bg, textColor:q.textColor, accent:q.accent, wordStyles:q.wordStyles});
+    } else {
+      const ea = SC[src.i].echoes;
+      const e = ea[Math.floor(Math.random() * ea.length)];
+      sipHist.push({i:src.i, t:'e'});
+      const q = SC[src.i];
+      sipRender({text:e.text, flavor:e.flavor, bg:q.bg, textColor:q.textColor, accent:q.accent, wordStyles:e.wordStyles, isEcho:true});
+    }
+  } else {
+    const i = sipPick(last?.i ?? -1); sipHist.push({i,t:'o'});
+    const q = SC[i];
+    sipRender({text:q.text, author:q.author, flavor:q.flavor, bg:q.bg, textColor:q.textColor, accent:q.accent, wordStyles:q.wordStyles});
+  }
+  setTimeout(() => { sipBusy=false; document.getElementById('sipBtn').disabled=false; }, 1000);
+}
+
+async function sipFetchAI() {
+  const p = SAP[Math.floor(Math.random() * SAP.length)];
+  const pal = AI_BG_PALETTES[Math.floor(Math.random() * AI_BG_PALETTES.length)];
+  sipHideFn();
+  setSipTheme(pal.bg, pal.textColor, pal.accent);
+  document.getElementById('sipQuoteBlock').classList.add('vis');
+  const el = document.getElementById('sipWordContainer');
+  el.innerHTML = `<span class="sip-word sw-serif-italic" style="font-size:32px;color:${pal.textColor};opacity:.5;">...</span>`;
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({model:"claude-sonnet-4-20250514", max_tokens:1000,
+        system:"You are a crisp, elegant quote writer. Write quotes that feel like premium brand copy — confident, warm, punchy. Respond with ONLY the quote. No quotation marks. No author. Maximum 12 words.",
+        messages:[{role:"user",content:p}]})
+    });
+    const data = await res.json();
+    const text = data.content?.[0]?.text?.trim() || "Show up. Be honest. That is enough.";
+    sipHist.push({i:-1, t:'ai'});
+    sipRender({text, flavor:'AI', bg:pal.bg, textColor:pal.textColor, accent:pal.accent, isAI:true});
+  } catch(e) {
+    const i = sipPick(); sipHist.push({i,t:'o'});
+    const q = SC[i];
+    sipRender({text:q.text, author:q.author, flavor:q.flavor, bg:q.bg, textColor:q.textColor, accent:q.accent, wordStyles:q.wordStyles});
+  }
+}
+
+/* ── KEYBOARD ── */
+document.addEventListener('keydown',e=>{
+  if(currentScreen==='dark'&&(e.code==='Space'||e.code==='ArrowRight')){e.preventDefault();dNext();}
+  if(currentScreen==='bright'&&(e.code==='Space'||e.code==='ArrowRight')){e.preventDefault();sipNext();}
+});
+
+/* ── LANDING BUBBLES ── */
+function buildLandBubs(){
+  const c=document.getElementById('landBubs');c.innerHTML='';
+  const cols=['rgba(255,159,67,.28)','rgba(255,220,100,.28)','rgba(120,220,180,.22)','rgba(255,180,180,.22)'];
+  for(let i=0;i<20;i++){const b=document.createElement('div');b.className='bubble-dot';const s=6+Math.random()*20;b.style.cssText=`width:${s}px;height:${s}px;background:${cols[i%4]};left:${Math.random()*100}%;bottom:${-s}px;animation-duration:${5+Math.random()*8}s;animation-delay:${-Math.random()*8}s;`;c.appendChild(b);}
+}
+
+/* ── INIT ── */
+buildLandBubs();
+</script>
+</body>
+</html>
