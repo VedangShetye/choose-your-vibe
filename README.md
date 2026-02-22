@@ -60,6 +60,7 @@ If you or someone you know is struggling, please reach out to a counsellor, ther
 - **Keyboard navigation** — Space / Arrow keys to advance
 - **Smooth transitions** — staggered reveal animations per quote element
 - **Upvote / Downvote** — real-time vote counts via Firebase, visible to all users
+- **Copy to Clipboard** — one click copies quote and author, with visual confirmation
 - **Favourites & Quote History** *(coming soon)*
 - **Mood-based recommendation engine** *(in roadmap)*
 
