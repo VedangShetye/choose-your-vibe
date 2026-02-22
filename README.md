@@ -42,10 +42,10 @@ If you or someone you know is struggling, please reach out to a counsellor, ther
 
 ## Screenshots
 
-| Sip & Smile | Psyche |
+| Psyche | Sip & Smile |
 |:---:|:---:|
-| ![Sip and Smile Mode](assets/Quote01.png) | ![Psyche Mode](assets/Quote02.png) |
-| *Bold, editorial, colour-shifting* | *Dark, atmospheric, psychological* |
+| ![Psyche Mode](assets/Quote01.png) | ![Sip and Smile Mode](assets/Quote02.png) |
+| *Dark, atmospheric, psychological* | *Bold, editorial, colour-shifting* |
 
 ---
 
