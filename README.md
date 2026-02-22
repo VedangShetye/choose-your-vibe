@@ -26,11 +26,25 @@ The project explores the duality of human emotional need — sometimes you want 
 
 ---
 
+## ⚠️ Disclaimer
+
+**Please read before using the Psyche category.**
+
+The Psyche mode contains quotes that explore psychologically intense themes — grief, trauma, depression, loneliness, self-worth, and emotional pain. These are intended for reflection and creative exploration only.
+
+- This is **not** a mental health tool or therapy substitute
+- If any content feels personally heavy or triggering, please step away and speak with someone you trust or a mental health professional
+- This project is an **early-stage learning project** built by a recent graduate — it is actively being developed and will continue to improve
+
+If you or someone you know is struggling, please reach out to a counsellor, therapist, or a trusted person in your life. You don't have to sit with hard feelings alone.
+
+---
+
 ## Screenshots
 
 | Sip & Smile | Psyche |
 |:---:|:---:|
-| ![Sip and Smile Mode](assets/Quote001.png) | ![Psyche Mode](assets/Quote002.png) |
+| ![Sip and Smile Mode](assets/Quote01.png) | ![Psyche Mode](assets/Quote02.png) |
 | *Bold, editorial, colour-shifting* | *Dark, atmospheric, psychological* |
 
 ---
@@ -45,7 +59,7 @@ The project explores the duality of human emotional need — sometimes you want 
 - **Dynamic colour themes** — every quote has its own unique background palette
 - **Keyboard navigation** — Space / Arrow keys to advance
 - **Smooth transitions** — staggered reveal animations per quote element
-- **Upvote / Downvote** *(coming soon — Firebase integration)*
+- **Upvote / Downvote** — real-time vote counts via Firebase, visible to all users
 - **Favourites & Quote History** *(coming soon)*
 - **Mood-based recommendation engine** *(in roadmap)*
 
@@ -58,9 +72,9 @@ The project explores the duality of human emotional need — sometimes you want 
 | Frontend | Vanilla HTML, CSS, JavaScript |
 | AI Integration | Anthropic Claude API |
 | Typography | Google Fonts (Playfair Display, DM Serif, Syne, Bebas Neue, Literata, IM Fell English, Cormorant Garamond, Cinzel) |
-| Database *(upcoming)* | Firebase Firestore |
-| Auth *(upcoming)* | Firebase Anonymous Auth |
-| Hosting | GitHub Pages / Firebase Hosting |
+| Database | Firebase Firestore |
+| Auth | Firebase Anonymous Auth |
+| Hosting | GitHub Pages |
 
 ---
 
@@ -78,10 +92,10 @@ No gradients. No stock imagery. No filler content.
 
 This project is actively being developed. Here is what is planned:
 
-**Phase 2 — Firebase Integration**
-- [ ] Upvote / Downvote on every quote
-- [ ] Real-time vote counts visible to all users
-- [ ] Anonymous auth to prevent double voting
+**Phase 2 — Firebase Integration** ✅ Complete
+- [x] Upvote / Downvote on every quote
+- [x] Real-time vote counts visible to all users
+- [x] Anonymous auth to prevent double voting
 
 **Phase 3 — localStorage Features**
 - [ ] Favourites / Save to collection
@@ -130,9 +144,11 @@ That's it. The project runs entirely in the browser.
 choose-your-vibe/
 │
 ├── index.html          # Entire application — HTML, CSS, JS in one file
+├── firestore.rules     # Firebase security rules
+├── .gitignore          # Git ignore file
 ├── assets/
-│   ├── Quote001.png    # Sip & Smile screenshot
-│   └── Quote002.png    # Psyche screenshot
+│   ├── Quote01.png     # Sip & Smile screenshot
+│   └── Quote02.png     # Psyche screenshot
 └── README.md           # This file
 ```
 
