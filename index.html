@@ -14,39 +14,128 @@ html,body{height:100%;overflow:hidden;}
 .screen.active{opacity:1;pointer-events:all;}
 
 /* ══════════════════════════════════════
-   LANDING
+   LANDING — WARM NEUTRAL (Style 4)
 ══════════════════════════════════════ */
-#landing{background:#0d0d0d;flex-direction:column;}
-.landing-split{display:flex;width:100%;height:100%;}
-.half{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;transition:flex 0.6s cubic-bezier(0.4,0,0.2,1);}
-.half:hover{flex:1.18;}
-.half-dark{background:#0e0a06;}
-.half-dark::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(139,58,30,.22) 0%,transparent 65%),radial-gradient(ellipse at 70% 80%,rgba(201,168,76,.1) 0%,transparent 60%);}
-.half-dark::after{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");pointer-events:none;opacity:.5;}
-.half-bright{background:#fff8ef;}
-.half-bright::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 60% 30%,rgba(255,210,100,.38) 0%,transparent 55%),radial-gradient(circle at 25% 75%,rgba(255,160,80,.22) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(120,220,180,.22) 0%,transparent 45%);}
-.landing-divider{position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.12) 30%,rgba(255,255,255,.12) 70%,transparent);z-index:10;pointer-events:none;}
-.landing-top-label{position:absolute;top:24px;left:50%;transform:translateX(-50%);z-index:20;font-family:'Cinzel',serif;font-size:8px;letter-spacing:5px;color:rgba(255,255,255,.16);text-transform:uppercase;white-space:nowrap;}
+#landing{
+  background:#1c1814;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+}
+#landing::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse at 30% 20%,rgba(180,140,80,.07),transparent 60%),
+    radial-gradient(ellipse at 72% 78%,rgba(120,80,40,.09),transparent 60%);
+}
+/* subtle noise texture */
+#landing::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity:.35;
+}
 
-.bubbles-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
-.bubble-dot{position:absolute;border-radius:50%;animation:floatUp linear infinite;opacity:0;}
-@keyframes floatUp{0%{transform:translateY(0) scale(1);opacity:0}10%{opacity:.55}90%{opacity:.35}100%{transform:translateY(-110vh) scale(.6);opacity:0}}
+/* Eyebrow */
+.land-eyebrow{
+  font-family:'Cinzel',serif;font-size:8px;letter-spacing:6px;
+  color:rgba(200,175,140,.3);text-transform:uppercase;
+  margin-bottom:22px;position:relative;z-index:2;
+  animation:landFadeUp 1s ease both;
+}
+/* Title */
+.land-title{
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:clamp(48px,7vw,90px);color:rgba(235,225,210,.88);
+  line-height:1;text-align:center;margin-bottom:12px;
+  position:relative;z-index:2;
+  animation:landFadeUp 1s .15s ease both;
+}
+.land-title strong{font-weight:400;color:#fff;}
+/* Subtitle */
+.land-sub{
+  font-family:'Literata',serif;font-style:italic;font-size:14px;
+  color:rgba(200,175,140,.4);margin-bottom:52px;
+  position:relative;z-index:2;
+  animation:landFadeUp 1s .28s ease both;
+}
+/* Capsule */
+.land-capsule{
+  display:flex;border-radius:50px;overflow:hidden;
+  width:min(480px,88vw);height:72px;
+  border:1px solid rgba(200,175,140,.14);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 8px 40px rgba(0,0,0,.4);
+  position:relative;z-index:2;
+  animation:landFadeUp 1s .42s ease both;
+  cursor:pointer;
+}
+.land-psyche{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:4px;
+  background:#110d08;border-right:1px solid rgba(200,175,140,.1);
+  transition:background .45s,flex .5s;
+}
+.land-capsule:hover .land-psyche{background:#1a1208;flex:1.08;}
+.land-psyche-label{
+  font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;
+  color:rgba(201,168,76,.65);text-transform:uppercase;
+  transition:color .35s;
+}
+.land-capsule:hover .land-psyche-label{color:rgba(201,168,76,.9);}
+.land-psyche-micro{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:11px;color:rgba(201,168,76,.22);transition:color .35s;
+}
+.land-capsule:hover .land-psyche-micro{color:rgba(201,168,76,.4);}
+.land-sip{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:4px;
+  background:#1c1610;transition:background .45s,flex .5s;
+}
+.land-capsule:hover .land-sip{background:#251e14;flex:1.08;}
+.land-sip-label{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:9px;
+  letter-spacing:3px;color:rgba(230,180,80,.6);text-transform:uppercase;
+  transition:color .35s;
+}
+.land-capsule:hover .land-sip-label{color:rgba(230,180,80,.9);}
+.land-sip-micro{
+  font-family:'Literata',serif;font-style:italic;font-size:11px;
+  color:rgba(230,180,80,.2);transition:color .35s;
+}
+.land-capsule:hover .land-sip-micro{color:rgba(230,180,80,.4);}
+/* Hint */
+.land-hint{
+  font-family:'Cinzel',serif;font-size:7px;letter-spacing:3px;
+  color:rgba(200,175,140,.18);text-transform:uppercase;margin-top:18px;
+  position:relative;z-index:2;
+  animation:landFadeUp 1s .56s ease both;
+}
 
-.half-content{position:relative;z-index:5;display:flex;flex-direction:column;align-items:center;gap:16px;padding:40px;text-align:center;}
-.dark-eyebrow{font-family:'Cinzel',serif;font-size:8px;letter-spacing:5px;color:rgba(201,168,76,.55);text-transform:uppercase;}
-.dark-title{font-family:'IM Fell English',serif;font-size:clamp(30px,5vw,52px);color:#f5efe4;font-style:italic;line-height:1.1;}
-.dark-subtitle{font-family:'Cormorant Garamond',serif;font-size:clamp(13px,1.5vw,15px);color:rgba(245,239,228,.42);font-style:italic;max-width:200px;line-height:1.6;}
-.dark-ornament{display:flex;align-items:center;gap:10px;}
-.dark-orn-line{width:38px;height:1px;background:rgba(201,168,76,.28);}
-.dark-orn-dia{width:4px;height:4px;background:rgba(201,168,76,.45);transform:rotate(45deg);}
-.dark-cta{margin-top:6px;font-family:'Cinzel',serif;font-size:8px;letter-spacing:4px;color:rgba(201,168,76,.45);border:1px solid rgba(201,168,76,.18);padding:10px 22px;transition:all .4s;text-transform:uppercase;}
-.half-dark:hover .dark-cta{color:rgba(201,168,76,.9);border-color:rgba(201,168,76,.5);background:rgba(201,168,76,.05);}
-.bright-emoji-big{font-size:52px;animation:wobble 3s ease-in-out infinite;}
-@keyframes wobble{0%,100%{transform:rotate(-4deg) scale(1)}50%{transform:rotate(4deg) scale(1.08)}}
-.bright-title{font-family:'Fredoka',sans-serif;font-size:clamp(28px,5vw,50px);font-weight:600;color:#2d2d2d;line-height:1.1;}
-.bright-subtitle{font-family:'Nunito',sans-serif;font-size:clamp(12px,1.4vw,14px);color:rgba(50,40,30,.5);max-width:200px;line-height:1.6;}
-.bright-cta{margin-top:6px;font-family:'Fredoka',sans-serif;font-size:14px;font-weight:500;color:#fff;background:linear-gradient(135deg,#ff9f43,#ff6b6b);border:none;padding:11px 26px;border-radius:50px;cursor:pointer;transition:transform .3s,box-shadow .3s;box-shadow:0 4px 15px rgba(255,107,107,.3);}
-.half-bright:hover .bright-cta{transform:translateY(-2px) scale(1.05);box-shadow:0 8px 25px rgba(255,107,107,.45);}
+/* Floating particles for landing */
+.land-particles{position:absolute;inset:0;pointer-events:none;z-index:1;}
+.land-particle{
+  position:absolute;width:2px;height:2px;border-radius:50%;
+  background:rgba(200,175,140,.25);
+  animation:landFloat var(--d,8s) var(--delay,0s) linear infinite;
+}
+@keyframes landFloat{
+  0%{transform:translateY(100vh) translateX(0);opacity:0;}
+  10%{opacity:.6;}
+  90%{opacity:.2;}
+  100%{transform:translateY(-10vh) translateX(var(--drift,20px));opacity:0;}
+}
+@keyframes landFadeUp{
+  from{opacity:0;transform:translateY(18px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* Keep bubbles-bg class alive for JS that uses it */
+.bubbles-bg{display:none;}
+.bubble-dot{display:none;}
+@keyframes floatUp{0%{opacity:0;}100%{opacity:0;}}
 
 /* ══════════════════════════════════════
    DARK / PSYCHE SCREEN
@@ -283,6 +372,117 @@ html,body{height:100%;overflow:hidden;}
 #bright-screen .vote-btn.voted.up{border-color:#4ade80;color:#4ade80;opacity:1;background:rgba(74,222,128,.12);}
 #bright-screen .vote-btn.voted.down{border-color:#f87171;color:#f87171;opacity:1;background:rgba(248,113,113,.12);}
 
+
+/* ══════════════════════════════════════
+   SIDE MENU — NEUTRAL PROFESSIONAL
+══════════════════════════════════════ */
+.menu-overlay{
+  position:fixed;inset:0;z-index:450;
+  background:rgba(0,0,0,.5);backdrop-filter:blur(4px);
+  opacity:0;pointer-events:none;transition:opacity .35s;
+}
+.menu-overlay.open{opacity:1;pointer-events:all;}
+
+.menu-panel{
+  position:fixed;top:0;left:0;bottom:0;
+  width:min(300px,85vw);z-index:460;
+  background:#161412;
+  border-right:1px solid rgba(255,255,255,.07);
+  display:flex;flex-direction:column;
+  transform:translateX(-100%);
+  transition:transform .38s cubic-bezier(0.4,0,0.2,1);
+  box-shadow:4px 0 30px rgba(0,0,0,.5);
+}
+.menu-panel.open{transform:translateX(0);}
+
+.menu-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:24px 22px 20px;
+}
+.menu-logo{
+  font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;
+  color:rgba(200,175,140,.5);text-transform:uppercase;
+}
+.menu-close{
+  background:none;border:none;color:rgba(255,255,255,.25);
+  font-size:16px;cursor:pointer;transition:color .3s;padding:4px 8px;
+}
+.menu-close:hover{color:rgba(255,255,255,.7);}
+
+.menu-divider{
+  height:1px;background:rgba(255,255,255,.06);margin:0 22px;
+}
+
+.menu-nav{
+  flex:1;padding:20px 0;overflow-y:auto;
+}
+.menu-item{
+  width:100%;display:flex;align-items:center;gap:14px;
+  padding:14px 22px;background:none;border:none;
+  color:rgba(235,225,210,.75);cursor:pointer;
+  transition:background .25s,color .25s;text-align:left;
+}
+.menu-item:hover{background:rgba(255,255,255,.04);color:#fff;}
+.menu-item-icon{
+  font-size:14px;color:rgba(200,175,140,.5);
+  min-width:20px;transition:color .25s;
+}
+.menu-item:hover .menu-item-icon{color:rgba(200,175,140,.9);}
+.menu-item-label{
+  font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;
+  text-transform:uppercase;flex:1;
+}
+.menu-item-arrow{
+  color:rgba(255,255,255,.2);font-size:16px;transition:transform .25s;
+}
+.menu-item:hover .menu-item-arrow{transform:translateX(3px);color:rgba(255,255,255,.5);}
+.menu-item-sub{
+  padding:0 22px 14px 56px;
+  font-family:'Literata',serif;font-style:italic;font-size:11px;
+  color:rgba(200,175,140,.25);line-height:1.5;
+}
+.menu-footer{
+  padding:20px 22px;border-top:1px solid rgba(255,255,255,.05);
+}
+.menu-footer-text{
+  font-family:'Cinzel',serif;font-size:7px;letter-spacing:3px;
+  color:rgba(255,255,255,.12);text-transform:uppercase;
+}
+
+/* ── BOOKMARKS PANEL — NEUTRAL PROFESSIONAL ── */
+.bm-panel{
+  background:#161412 !important;
+}
+.bm-panel-header{
+  background:#161412 !important;
+  border-bottom:1px solid rgba(255,255,255,.07) !important;
+}
+.bm-panel-title{
+  font-family:'Cinzel',serif;font-size:10px;letter-spacing:5px;
+  color:rgba(200,175,140,.65);text-transform:uppercase;
+}
+.bm-panel-close{
+  font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;
+  color:rgba(200,175,140,.3);background:none;border:none;
+  cursor:pointer;text-transform:uppercase;transition:color .3s;
+}
+.bm-panel-close:hover{color:rgba(200,175,140,.8);}
+.bm-empty{color:rgba(235,225,210,.12) !important;}
+.bm-folder-card{
+  border-color:rgba(255,255,255,.07) !important;
+}
+.bm-folder-card:hover{border-color:rgba(200,175,140,.25) !important;background:rgba(200,175,140,.03) !important;}
+.bm-folder-card-name{color:rgba(200,175,140,.6) !important;}
+.bm-folder-card-count{color:rgba(235,225,210,.25) !important;}
+.bm-folder-del{color:rgba(255,255,255,.1) !important;}
+.bm-back{color:rgba(200,175,140,.35) !important;}
+.bm-back:hover{color:rgba(200,175,140,.8) !important;}
+.bm-folder-view-title{color:rgba(200,175,140,.7) !important;}
+.bm-quote-card{border-color:rgba(255,255,255,.06) !important;}
+.bm-quote-card:hover{border-color:rgba(200,175,140,.2) !important;}
+.bm-quote-text{color:rgba(235,225,210,.8) !important;}
+.bm-quote-meta{color:rgba(200,175,140,.35) !important;}
+
 /* ── COPY TO CLIPBOARD ── */
 .copy-btn{
   display:inline-flex;align-items:center;gap:7px;
@@ -315,6 +515,206 @@ html,body{height:100%;overflow:hidden;}
   z-index:200;
 }
 .copy-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ══════════════════════════════════════
+   HAMBURGER MENU & BOOKMARKS
+══════════════════════════════════════ */
+
+/* Hamburger button — shown on all screens except landing */
+.hamburger{
+  position:fixed;top:22px;left:22px;z-index:300;
+  background:none;border:none;cursor:pointer;
+  display:none;flex-direction:column;gap:5px;padding:6px;
+}
+.hamburger.show{display:flex;}
+.hamburger span{
+  display:block;width:22px;height:2px;
+  background:var(--ham-color, rgba(201,168,76,.6));
+  transition:all .3s;border-radius:2px;
+}
+.hamburger:hover span{background:var(--ham-color-hover, rgba(201,168,76,1));}
+#dark-screen .hamburger span{background:rgba(201,168,76,.6);}
+#dark-screen .hamburger:hover span{background:rgba(201,168,76,1);}
+#bright-screen .hamburger span{background:var(--sip-text);opacity:.5;}
+#bright-screen .hamburger:hover span{opacity:1;}
+
+/* Bookmark button on quotes */
+.bm-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:'Cinzel',serif;font-size:7px;letter-spacing:3px;text-transform:uppercase;
+  background:none;border:1px solid rgba(255,255,255,.12);
+  color:rgba(255,255,255,.35);padding:7px 18px;cursor:pointer;
+  transition:all .3s;margin-top:8px;
+  opacity:0;transition:opacity 1s 1.6s, border-color .3s, color .3s, background .3s;
+}
+.bm-btn.vis{opacity:1;}
+.bm-btn:hover{border-color:rgba(255,255,255,.4);color:rgba(255,255,255,.75);}
+.bm-btn.saved{border-color:#f59e0b;color:#f59e0b;background:rgba(245,158,11,.08);}
+#bright-screen .bm-btn{
+  font-family:'Syne',sans-serif;font-weight:700;font-size:8px;
+  border-color:rgba(255,255,255,.2);color:var(--sip-text);opacity:.4;
+}
+#bright-screen .bm-btn:hover{opacity:.85;}
+#bright-screen .bm-btn.saved{border-color:#f59e0b;color:#f59e0b;opacity:1;}
+
+/* ── FOLDER PICKER POPUP ── */
+.folder-popup{
+  position:fixed;inset:0;z-index:500;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.65);backdrop-filter:blur(8px);
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.folder-popup.open{opacity:1;pointer-events:all;}
+.folder-box{
+  width:min(420px,90vw);
+  background:#1a1008;border:1px solid rgba(201,168,76,.25);
+  padding:36px 36px 28px;position:relative;
+}
+.folder-box.bright{background:#f5f0e8;border-color:rgba(0,0,0,.12);}
+.folder-box-title{
+  font-family:'Cinzel',serif;font-size:9px;letter-spacing:4px;
+  color:rgba(201,168,76,.8);text-transform:uppercase;margin-bottom:20px;
+}
+.folder-box.bright .folder-box-title{color:#6b2d8b;}
+.folder-list{display:flex;flex-direction:column;gap:8px;max-height:220px;overflow-y:auto;margin-bottom:18px;}
+.folder-item{
+  display:flex;align-items:center;justify-content:space-between;
+  font-family:'Cormorant Garamond',serif;font-size:15px;
+  color:rgba(245,239,228,.8);padding:10px 14px;
+  border:1px solid rgba(255,255,255,.08);cursor:pointer;
+  transition:all .25s;
+}
+.folder-box.bright .folder-item{color:#2d2d2d;border-color:rgba(0,0,0,.1);}
+.folder-item:hover{border-color:rgba(201,168,76,.4);background:rgba(201,168,76,.06);}
+.folder-box.bright .folder-item:hover{border-color:#6b2d8b;background:rgba(107,45,139,.06);}
+.folder-item-name{display:flex;align-items:center;gap:10px;}
+.folder-item-count{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;opacity:.4;}
+.folder-new{display:flex;gap:8px;margin-bottom:14px;}
+.folder-new input{
+  flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);
+  color:rgba(245,239,228,.9);font-family:'Cormorant Garamond',serif;font-size:14px;
+  padding:9px 14px;outline:none;transition:border-color .3s;
+}
+.folder-box.bright .folder-new input{
+  background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.12);color:#2d2d2d;
+}
+.folder-new input:focus{border-color:rgba(201,168,76,.5);}
+.folder-box.bright .folder-new input:focus{border-color:#6b2d8b;}
+.folder-new input::placeholder{opacity:.35;}
+.folder-new-btn{
+  font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;
+  background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);
+  color:rgba(201,168,76,.8);padding:9px 16px;cursor:pointer;
+  text-transform:uppercase;transition:all .3s;white-space:nowrap;
+}
+.folder-box.bright .folder-new-btn{background:rgba(107,45,139,.1);border-color:#6b2d8b;color:#6b2d8b;}
+.folder-new-btn:hover{background:rgba(201,168,76,.2);border-color:rgba(201,168,76,.6);}
+.folder-popup-close{
+  position:absolute;top:14px;right:16px;background:none;border:none;
+  color:rgba(255,255,255,.3);font-size:18px;cursor:pointer;transition:color .3s;
+}
+.folder-box.bright .folder-popup-close{color:rgba(0,0,0,.3);}
+.folder-popup-close:hover{color:rgba(255,255,255,.7);}
+.folder-popup-empty{
+  font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;
+  color:rgba(255,255,255,.25);text-align:center;padding:16px 0;
+}
+.folder-box.bright .folder-popup-empty{color:rgba(0,0,0,.3);}
+
+/* ── BOOKMARKS FULL SCREEN PANEL ── */
+.bm-panel{
+  position:fixed;inset:0;z-index:400;
+  background:#0e0a06;
+  opacity:0;pointer-events:none;
+  transition:opacity .4s;
+  overflow-y:auto;
+}
+.bm-panel.open{opacity:1;pointer-events:all;}
+.bm-panel-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:28px 40px;border-bottom:1px solid rgba(201,168,76,.12);
+  position:sticky;top:0;background:#0e0a06;z-index:10;
+}
+.bm-panel-title{
+  font-family:'Cinzel',serif;font-size:11px;letter-spacing:5px;
+  color:rgba(201,168,76,.8);text-transform:uppercase;
+}
+.bm-panel-close{
+  font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;
+  color:rgba(201,168,76,.4);background:none;border:none;
+  cursor:pointer;text-transform:uppercase;transition:color .3s;
+}
+.bm-panel-close:hover{color:rgba(201,168,76,.9);}
+.bm-panel-body{padding:36px 40px;}
+.bm-empty{
+  font-family:'IM Fell English',serif;font-size:22px;font-style:italic;
+  color:rgba(245,239,228,.15);text-align:center;margin-top:80px;
+}
+
+/* Folder cards grid */
+.bm-folders-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;}
+.bm-folder-card{
+  border:1px solid rgba(201,168,76,.15);padding:22px 22px 18px;
+  cursor:pointer;transition:all .3s;position:relative;
+}
+.bm-folder-card:hover{border-color:rgba(201,168,76,.4);background:rgba(201,168,76,.04);}
+.bm-folder-card-name{
+  font-family:'Cinzel',serif;font-size:10px;letter-spacing:3px;
+  color:rgba(201,168,76,.7);text-transform:uppercase;margin-bottom:8px;
+}
+.bm-folder-card-count{
+  font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;
+  color:rgba(245,239,228,.3);
+}
+.bm-folder-del{
+  position:absolute;top:10px;right:12px;background:none;border:none;
+  color:rgba(255,255,255,.15);font-size:13px;cursor:pointer;
+  transition:color .3s;padding:2px 6px;
+}
+.bm-folder-del:hover{color:#f87171;}
+
+/* Individual folder view */
+.bm-folder-view{display:none;}
+.bm-folder-view.open{display:block;}
+.bm-folders-view{display:block;}
+.bm-folders-view.hidden{display:none;}
+.bm-back{
+  font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;
+  color:rgba(201,168,76,.4);background:none;border:none;
+  cursor:pointer;text-transform:uppercase;margin-bottom:28px;
+  transition:color .3s;display:block;
+}
+.bm-back:hover{color:rgba(201,168,76,.9);}
+.bm-folder-view-title{
+  font-family:'Cinzel',serif;font-size:12px;letter-spacing:4px;
+  color:rgba(201,168,76,.8);text-transform:uppercase;margin-bottom:28px;
+}
+.bm-quotes-list{display:flex;flex-direction:column;gap:16px;}
+.bm-quote-card{
+  border:1px solid rgba(201,168,76,.1);padding:22px 24px;
+  position:relative;transition:border-color .3s;
+}
+.bm-quote-card:hover{border-color:rgba(201,168,76,.3);}
+.bm-quote-text{
+  font-family:'IM Fell English',serif;font-size:clamp(15px,2vw,20px);
+  font-style:italic;color:rgba(245,239,228,.85);line-height:1.6;margin-bottom:10px;
+}
+.bm-quote-meta{
+  font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;
+  color:rgba(201,168,76,.45);text-transform:uppercase;
+}
+.bm-quote-del{
+  position:absolute;top:12px;right:14px;background:none;border:none;
+  color:rgba(255,255,255,.15);font-size:13px;cursor:pointer;
+  transition:color .3s;
+}
+.bm-quote-del:hover{color:#f87171;}
+.bm-quote-mode{
+  display:inline-block;font-family:'Cinzel',serif;font-size:7px;letter-spacing:2px;
+  padding:2px 8px;border-radius:2px;margin-bottom:10px;text-transform:uppercase;
+}
+.bm-quote-mode.psyche{background:rgba(139,58,30,.2);color:rgba(201,168,76,.7);}
+.bm-quote-mode.sip{background:rgba(107,45,139,.2);color:#ce93d8;}
 </style>
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
@@ -323,30 +723,25 @@ html,body{height:100%;overflow:hidden;}
 </head>
 <body>
 
-<!-- LANDING -->
+<!-- LANDING — WARM NEUTRAL -->
 <div class="screen active" id="landing">
-  <div class="landing-top-label">Choose your experience</div>
-  <div class="landing-divider"></div>
-  <div class="landing-split">
-    <div class="half half-dark" onclick="goTo('dark')">
-      <div class="half-content">
-        <div class="dark-eyebrow">Category I</div>
-        <div class="dark-title">Psyche</div>
-        <div class="dark-ornament"><div class="dark-orn-line"></div><div class="dark-orn-dia"></div><div class="dark-orn-line"></div></div>
-        <div class="dark-subtitle">Quotes from the depths of human psychology</div>
-        <div class="dark-cta">Enter the shadow</div>
-      </div>
+  <div class="land-particles" id="landParticles"></div>
+  <div class="land-eyebrow">A quote experience</div>
+  <div class="land-title"><strong>Choose</strong><br>Your Vibe</div>
+  <div class="land-sub">Some days need depth. Some days need delight.</div>
+  <div class="land-capsule">
+    <div class="land-psyche" onclick="goTo('dark')">
+      <div class="land-psyche-label">Psyche</div>
+      <div class="land-psyche-micro">depth · grief · wisdom</div>
     </div>
-    <div class="half half-bright" onclick="goTo('bright')">
-      <div class="bubbles-bg" id="landBubs"></div>
-      <div class="half-content">
-        <div class="bright-emoji-big">🌈</div>
-        <div class="bright-title">Sip &amp; Smile</div>
-        <div class="bright-subtitle">Fresh, feel-good quotes in full colour</div>
-        <div class="bright-cta">Feel good now ✨</div>
-      </div>
+    <div class="land-sip" onclick="goTo('bright')">
+      <div class="land-sip-label">Sip & Smile</div>
+      <div class="land-sip-micro">wit · colour · boldness</div>
     </div>
   </div>
+  <div class="land-hint">Select your mood to begin</div>
+  <!-- Keep for JS compatibility -->
+  <div class="bubbles-bg" id="landBubs" style="display:none;"></div>
 </div>
 
 <!-- DARK SCREEN -->
@@ -368,6 +763,10 @@ html,body{height:100%;overflow:hidden;}
       <div class="d-theme" id="dTheme"></div>
       <div class="d-ai" id="dAi">✦ Generated by AI</div>
 
+
+      <button class="bm-btn" id="dBmBtn" onclick="openFolderPopup()">
+        ◈ Bookmark
+      </button>
       <button class="copy-btn" id="dCopyBtn" onclick="copyQuote()">
         ✦ Copy Quote
       </button>
@@ -410,6 +809,10 @@ html,body{height:100%;overflow:hidden;}
       <button class="vote-btn up" id="sVoteUp" onclick="castVote('up')">▲ <span class="vote-count" id="sVoteUpCount">0</span></button>
       <button class="vote-btn down" id="sVoteDown" onclick="castVote('down')">▼ <span class="vote-count" id="sVoteDownCount">0</span></button>
     </div>
+
+    <button class="bm-btn" id="sBmBtn" onclick="openFolderPopup()" style="margin-top:8px;">
+      ◈ Bookmark
+    </button>
     <button class="copy-btn" id="sCopyBtn" onclick="copyQuote()" style="margin-top:14px;">
       ✦ Copy Quote
     </button>
@@ -430,6 +833,7 @@ function goTo(s) {
   currentScreen = s;
   if(s==='dark' && dCount===0) initDark();
   if(s==='bright' && sipCount===0) initSip();
+  if(typeof updateHamburger === 'function') updateHamburger();
 }
 
 /* ════════════ DARK / PSYCHE ════════════ */
@@ -603,7 +1007,7 @@ const DAP = [
 let dCount=0,dHist=[],dBusy=false;
 function dShouldEcho(){const r=Math.random(),b=Math.sin(dCount*1.618)*.15;return dHist.length>0&&(r+b)>.65;}
 function dPick(ex=-1){let i;do{i=Math.floor(Math.random()*DC.length);}while(i===ex&&DC.length>1);return i;}
-function dClear(){['dText','dDiv','dAuthor','dTheme','dAi','dEcho','dVoteBar','dCopyBtn'].forEach(id=>document.getElementById(id).classList.remove('vis'));}
+function dClear(){['dText','dDiv','dAuthor','dTheme','dAi','dEcho','dVoteBar','dCopyBtn','dBmBtn'].forEach(id=>document.getElementById(id).classList.remove('vis'));}
 function dReveal(isEcho,isAI){
   setTimeout(()=>document.getElementById('dText').classList.add('vis'),50);
   setTimeout(()=>document.getElementById('dDiv').classList.add('vis'),200);
@@ -613,6 +1017,7 @@ function dReveal(isEcho,isAI){
   if(isEcho)setTimeout(()=>document.getElementById('dEcho').classList.add('vis'),100);
   setTimeout(()=>{const vb=document.getElementById('dVoteBar');if(vb)vb.classList.add('vis');},1300);
   setTimeout(()=>{const cb=document.getElementById('dCopyBtn');if(cb)cb.classList.add('vis');},1500);
+  setTimeout(()=>{const bb=document.getElementById('dBmBtn');if(bb)bb.classList.add('vis');},1600);
 }
 function dRender({text,author,theme,isEcho=false,isAI=false}){
   dClear();
@@ -1220,7 +1625,7 @@ function setSipTheme(bg, textColor, accent) {
 function sipHideFn() {
   const qb = document.getElementById('sipQuoteBlock');
   qb.classList.remove('vis');
-  ['sipRule','sipMeta','sipEcho','sipAi','sVoteBar','sCopyBtn'].forEach(id => document.getElementById(id).classList.remove('vis'));
+  ['sipRule','sipMeta','sipEcho','sipAi','sVoteBar','sCopyBtn','sBmBtn'].forEach(id => document.getElementById(id).classList.remove('vis'));
 }
 
 function sipReveal(isEcho, isAI) {
@@ -1232,6 +1637,7 @@ function sipReveal(isEcho, isAI) {
     if(isAI) { setTimeout(() => document.getElementById('sipAi').classList.add('vis'), 700); }
     setTimeout(()=>{const vb=document.getElementById('sVoteBar');if(vb)vb.classList.add('vis');},900);
     setTimeout(()=>{const cb=document.getElementById('sCopyBtn');if(cb)cb.classList.add('vis');},1100);
+    setTimeout(()=>{const bb=document.getElementById('sBmBtn');if(bb)bb.classList.add('vis');},1200);
   }, 80);
 }
 
@@ -1425,25 +1831,25 @@ async function castVote(type) {
 const _origDRender = dRender;
 dRender = function(opts) {
   _origDRender(opts);
-  if(opts.text) currentQuoteText = opts.text + (opts.author && opts.author !== '— rephrased' ? ' — ' + opts.author.replace(/^— /, '') : '');
+  if(opts.text) { currentQuoteText = opts.text; currentQuoteAuthor = opts.author && opts.author !== '— rephrased' ? opts.author.replace(/^— /, '') : ''; currentQuoteTheme = opts.theme || ''; }
   setTimeout(() => {
-    if(opts.text) loadVotes(quoteId(opts.text), 'dark');
+    if(opts.text) { loadVotes(quoteId(opts.text), 'dark'); checkIfBookmarked(); }
   }, 400);
 };
 
 const _origSipRender = sipRender;
 sipRender = function(opts) {
   _origSipRender(opts);
-  if(opts.text) currentQuoteText = opts.text + (opts.author ? ' — ' + opts.author : '');
+  if(opts.text) { currentQuoteText = opts.text; currentQuoteAuthor = opts.author || ''; currentQuoteTheme = opts.flavor || ''; }
   setTimeout(() => {
-    if(opts.text) loadVotes(quoteId(opts.text), 'bright');
+    if(opts.text) { loadVotes(quoteId(opts.text), 'bright'); checkIfBookmarked(); }
   }, 200);
 };
 
-
-
 /* ── COPY TO CLIPBOARD ── */
 let currentQuoteText = '';
+let currentQuoteAuthor = '';
+let currentQuoteTheme = '';
 
 function copyQuote() {
   if(!currentQuoteText) return;
@@ -1476,6 +1882,260 @@ function copyQuote() {
   });
 }
 
+
+/* ══════════════════════════════════════
+   BOOKMARKS SYSTEM
+══════════════════════════════════════ */
+
+// localStorage key
+const BM_KEY = 'cyv_bookmarks';
+
+// bookmarks structure: { folderName: [ {text, author, theme, mode, savedAt}, ... ] }
+function getBm() {
+  try { return JSON.parse(localStorage.getItem(BM_KEY)) || {}; }
+  catch(e) { return {}; }
+}
+function saveBm(data) {
+  localStorage.setItem(BM_KEY, JSON.stringify(data));
+}
+
+// ── Show/hide hamburger based on screen ──
+function updateHamburger() {
+  const btn = document.getElementById('hamburgerBtn');
+  btn.classList.add('show'); // visible on all screens
+}
+
+
+/* ══════════════════════════════════════
+   MENU SYSTEM
+══════════════════════════════════════ */
+function toggleMenu() {
+  const panel = document.getElementById('menuPanel');
+  const overlay = document.getElementById('menuOverlay');
+  const isOpen = panel.classList.contains('open');
+  if(isOpen) {
+    panel.classList.remove('open');
+    overlay.classList.remove('open');
+  } else {
+    panel.classList.add('open');
+    overlay.classList.add('open');
+  }
+}
+
+function openBookmarksFromMenu() {
+  // Close menu first, then open bookmarks
+  document.getElementById('menuPanel').classList.remove('open');
+  document.getElementById('menuOverlay').classList.remove('open');
+  setTimeout(() => {
+    renderBmPanel();
+    document.getElementById('bmPanel').classList.add('open');
+    showFoldersView();
+  }, 300);
+}
+
+// ── Toggle bookmarks panel ──
+function toggleBmPanel() {
+  const panel = document.getElementById('bmPanel');
+  const isOpen = panel.classList.contains('open');
+  if(isOpen) {
+    panel.classList.remove('open');
+  } else {
+    renderBmPanel();
+    panel.classList.add('open');
+    showFoldersView();
+  }
+}
+
+// ── Render folders grid ──
+function renderBmPanel() {
+  const bm = getBm();
+  const folders = Object.keys(bm);
+  const grid = document.getElementById('bmFoldersGrid');
+  const empty = document.getElementById('bmEmpty');
+  const fView = document.getElementById('bmFoldersView');
+
+  if(folders.length === 0) {
+    empty.style.display = 'block';
+    fView.classList.add('hidden');
+  } else {
+    empty.style.display = 'none';
+    fView.classList.remove('hidden');
+    grid.innerHTML = folders.map(f => `
+      <div class="bm-folder-card" onclick="openFolder('${encodeURIComponent(f)}')">
+        <button class="bm-folder-del" onclick="event.stopPropagation();deleteFolder('${encodeURIComponent(f)}')">✕</button>
+        <div class="bm-folder-card-name">📁 ${f}</div>
+        <div class="bm-folder-card-count">${bm[f].length} quote${bm[f].length !== 1 ? 's' : ''}</div>
+      </div>
+    `).join('');
+  }
+}
+
+// ── Open individual folder ──
+function openFolder(encodedName) {
+  const name = decodeURIComponent(encodedName);
+  const bm = getBm();
+  const quotes = bm[name] || [];
+  document.getElementById('bmFoldersView').classList.add('hidden');
+  const fv = document.getElementById('bmFolderView');
+  fv.classList.add('open');
+  document.getElementById('bmFolderViewTitle').textContent = '📁 ' + name;
+  const list = document.getElementById('bmQuotesList');
+  if(quotes.length === 0) {
+    list.innerHTML = '<div class="folder-popup-empty" style="text-align:left;padding:0;">No quotes in this folder.</div>';
+    return;
+  }
+  list.innerHTML = quotes.map((q, idx) => `
+    <div class="bm-quote-card">
+      <button class="bm-quote-del" onclick="deleteBookmark('${encodeURIComponent(name)}',${idx})">✕</button>
+      <div class="bm-quote-mode ${q.mode === 'dark' ? 'psyche' : 'sip'}">${q.mode === 'dark' ? 'Psyche' : 'Sip & Smile'}</div>
+      <div class="bm-quote-text">"${q.text}"</div>
+      <div class="bm-quote-meta">${q.author ? '— ' + q.author : ''}${q.theme ? ' · ' + q.theme : ''}</div>
+    </div>
+  `).join('');
+}
+
+function showFoldersView() {
+  document.getElementById('bmFolderView').classList.remove('open');
+  document.getElementById('bmFoldersView').classList.remove('hidden');
+  renderBmPanel();
+}
+
+// ── Delete folder ──
+function deleteFolder(encodedName) {
+  const name = decodeURIComponent(encodedName);
+  if(!confirm(`Delete folder "${name}" and all its quotes?`)) return;
+  const bm = getBm();
+  delete bm[name];
+  saveBm(bm);
+  renderBmPanel();
+}
+
+// ── Delete individual bookmark ──
+function deleteBookmark(encodedFolder, idx) {
+  const folder = decodeURIComponent(encodedFolder);
+  const bm = getBm();
+  if(!bm[folder]) return;
+  bm[folder].splice(idx, 1);
+  if(bm[folder].length === 0) delete bm[folder];
+  saveBm(bm);
+  openFolder(encodedFolder);
+  renderBmPanel();
+}
+
+// ── Open folder picker popup ──
+function openFolderPopup() {
+  const popup = document.getElementById('folderPopup');
+  const box = document.getElementById('folderBox');
+  // Match theme to current screen
+  box.className = currentScreen === 'bright' ? 'folder-box bright' : 'folder-box';
+  renderFolderList();
+  document.getElementById('folderNameInput').value = '';
+  popup.classList.add('open');
+  setTimeout(() => document.getElementById('folderNameInput').focus(), 100);
+}
+
+function closeFolderPopup() {
+  document.getElementById('folderPopup').classList.remove('open');
+}
+
+// ── Render folder list in popup ──
+function renderFolderList() {
+  const bm = getBm();
+  const folders = Object.keys(bm);
+  const list = document.getElementById('folderList');
+  const empty = document.getElementById('folderEmpty');
+  if(folders.length === 0) {
+    list.innerHTML = '';
+    empty.style.display = 'block';
+  } else {
+    empty.style.display = 'none';
+    list.innerHTML = folders.map(f => `
+      <div class="folder-item" onclick="saveToFolder('${encodeURIComponent(f)}')">
+        <div class="folder-item-name">📁 ${f}</div>
+        <div class="folder-item-count">${bm[f].length} saved</div>
+      </div>
+    `).join('');
+  }
+}
+
+// ── Create new folder and save ──
+function createAndSave() {
+  const input = document.getElementById('folderNameInput');
+  const name = input.value.trim();
+  if(!name) { input.focus(); return; }
+  const bm = getBm();
+  if(!bm[name]) bm[name] = [];
+  saveBm(bm);
+  saveToFolder(encodeURIComponent(name));
+}
+
+// ── Save current quote to a folder ──
+function saveToFolder(encodedFolder) {
+  const folder = decodeURIComponent(encodedFolder);
+  if(!currentQuoteText) { closeFolderPopup(); return; }
+  const bm = getBm();
+  if(!bm[folder]) bm[folder] = [];
+
+  // Check for duplicate
+  const exists = bm[folder].some(q => q.text === currentQuoteText);
+  if(exists) {
+    closeFolderPopup();
+    showBmToast('Already saved in ' + folder);
+    return;
+  }
+
+  bm[folder].push({
+    text: currentQuoteText,
+    author: currentQuoteAuthor || '',
+    theme: currentQuoteTheme || '',
+    mode: currentScreen,
+    savedAt: new Date().toISOString()
+  });
+  saveBm(bm);
+  closeFolderPopup();
+  showBmToast('Saved to ' + folder);
+
+  // Update bookmark button state
+  const prefix = currentScreen === 'dark' ? 'd' : 's';
+  const btn = document.getElementById(prefix + 'BmBtn');
+  if(btn) { btn.classList.add('saved'); btn.textContent = '◈ Saved'; }
+}
+
+// ── Toast for bookmark confirmation ──
+function showBmToast(msg) {
+  const toast = document.getElementById('copyToast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => {
+    toast.classList.remove('show');
+    toast.textContent = 'Copied to clipboard';
+  }, 2200);
+}
+
+// ── Check if current quote is already bookmarked ──
+function checkIfBookmarked() {
+  if(!currentQuoteText) return;
+  const bm = getBm();
+  const prefix = currentScreen === 'dark' ? 'd' : 's';
+  const btn = document.getElementById(prefix + 'BmBtn');
+  if(!btn) return;
+  const saved = Object.values(bm).some(folder => folder.some(q => q.text === currentQuoteText));
+  if(saved) { btn.classList.add('saved'); btn.textContent = '◈ Saved'; }
+  else { btn.classList.remove('saved'); btn.textContent = '◈ Bookmark'; }
+}
+
+// Close popup on backdrop click
+document.getElementById('folderPopup')?.addEventListener('click', function(e) {
+  if(e.target === this) closeFolderPopup();
+});
+
+
+/* ── INIT HAMBURGER ── */
+document.addEventListener('DOMContentLoaded',()=>{
+  const btn=document.getElementById('hamburgerBtn');
+  if(btn) btn.classList.add('show');
+});
+
 /* ── LANDING BUBBLES ── */
 function buildLandBubs(){
   const c=document.getElementById('landBubs');c.innerHTML='';
@@ -1484,9 +2144,87 @@ function buildLandBubs(){
 }
 
 /* ── INIT ── */
-buildLandBubs();
+// Landing particles (replaces bubbles)
+function buildLandParticles() {
+  const container = document.getElementById('landParticles');
+  if(!container) return;
+  for(let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'land-particle';
+    const drift = (Math.random() - 0.5) * 80;
+    p.style.cssText = `left:${Math.random()*100}%;--d:${7+Math.random()*10}s;--delay:${-Math.random()*12}s;--drift:${drift}px;`;
+    container.appendChild(p);
+  }
+}
+buildLandParticles();
+buildLandBubs(); // keep for JS compatibility
 </script>
 
 <div class="copy-toast" id="copyToast">Copied to clipboard</div>
+
+<!-- Hamburger Button -->
+<button class="hamburger" id="hamburgerBtn" onclick="toggleMenu()">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- Side Menu Overlay -->
+<div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+
+<!-- Side Menu Panel -->
+<div class="menu-panel" id="menuPanel">
+  <div class="menu-header">
+    <div class="menu-logo">Choose Your Vibe</div>
+    <button class="menu-close" onclick="toggleMenu()">✕</button>
+  </div>
+  <div class="menu-divider"></div>
+  <nav class="menu-nav">
+    <button class="menu-item" onclick="openBookmarksFromMenu()">
+      <span class="menu-item-icon">◈</span>
+      <span class="menu-item-label">Bookmarks</span>
+      <span class="menu-item-arrow">›</span>
+    </button>
+    <div class="menu-item-sub">Your saved quotes, organised by folder</div>
+    <!-- Future sections will be added here -->
+  </nav>
+  <div class="menu-footer">
+    <div class="menu-footer-text">More sections coming soon</div>
+  </div>
+</div>
+
+<!-- Folder Picker Popup -->
+<div class="folder-popup" id="folderPopup">
+  <div class="folder-box" id="folderBox">
+    <button class="folder-popup-close" onclick="closeFolderPopup()">✕</button>
+    <div class="folder-box-title">Save to folder</div>
+    <div class="folder-new">
+      <input type="text" id="folderNameInput" placeholder="New folder name..." maxlength="30" onkeydown="if(event.key==='Enter')createAndSave()"/>
+      <button class="folder-new-btn" onclick="createAndSave()">+ Create</button>
+    </div>
+    <div class="folder-list" id="folderList"></div>
+    <div class="folder-popup-empty" id="folderEmpty" style="display:none;">No folders yet. Create one above.</div>
+  </div>
+</div>
+
+<!-- Bookmarks Panel -->
+<div class="bm-panel" id="bmPanel">
+  <div class="bm-panel-header">
+    <div class="bm-panel-title">✦ My Bookmarks</div>
+    <button class="bm-panel-close" onclick="toggleBmPanel()">✕ Close</button>
+  </div>
+  <div class="bm-panel-body">
+    <div class="bm-empty" id="bmEmpty" style="display:none;">No bookmarks yet. Start saving quotes.</div>
+    <!-- Folders grid view -->
+    <div class="bm-folders-view" id="bmFoldersView">
+      <div class="bm-folders-grid" id="bmFoldersGrid"></div>
+    </div>
+    <!-- Individual folder view -->
+    <div class="bm-folder-view" id="bmFolderView">
+      <button class="bm-back" onclick="showFoldersView()">← All Folders</button>
+      <div class="bm-folder-view-title" id="bmFolderViewTitle"></div>
+      <div class="bm-quotes-list" id="bmQuotesList"></div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
